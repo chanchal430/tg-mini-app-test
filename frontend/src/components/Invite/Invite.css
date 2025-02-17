@@ -1,0 +1,81 @@
+.invite-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #fff;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.invite-title{
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.invite-innner-container {
+  border-top: 2px solid #3669BB;
+  border-radius: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 50px;
+  gap: 20px;
+}
+
+.invite-innner-container img {
+  width: 50%;
+}
+
+.invite-link-div {
+  border-radius: 10px;
+  background: #282D33;
+  padding: 40px 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 75%;
+  overflow: hidden;
+}
+
+.invite-link-main-div {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.invite-link-div span{
+    font-size: 12px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+    display: block;
+    max-width: 100%;
+    text-align: center;
+}
+
+.invite-link-div svg{
+    height: fit-content;
+    cursor: pointer;
+    color: #3669BB;
+}
+.invite-link-main-div h5{
+  font-size: 18px;
+}
+
+.invite-contact-btn{
+  border-radius: 10px;
+background: #3669bb;
+font-size: 16px;
+color: #fff;
+padding: 12px;
+border: none;
+width: 40%;
+margin-top: 20px;
+cursor: pointer;
+}

@@ -1,0 +1,48 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+}
+body{
+  background-color: #17191C;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+
+.main-content {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer stays at the bottom */
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: 0px auto;
+  position: fixed;
+  bottom: 0;
+}
+button, a, div {
+  -webkit-tap-highlight-color: transparent;
+}
+.go3974562317 {
+  background-color: #3669bb;
+  /* padding: 30px 60px 30px 60px; */
+
+}
+
+.go2267139606 {
+  background-color: #FFFFFF;
+}

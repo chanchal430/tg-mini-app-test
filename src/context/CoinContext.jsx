@@ -6,33 +6,33 @@ const CoinProvider = ({ children }) => {
   const [totalCoins, setTotalCoins] = useState(0);
   const walletAddress = localStorage.getItem("walletAddress");
   const [tasks,setTasks] = useState([])
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch(`${apiIp}api/tasks`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "wallet-address": walletAddress,
-        },
-      });
+  // const fetchTasks = async () => {
+  //   try {
+  //     const response = await fetch(`${apiIp}api/tasks`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "wallet-address": walletAddress,
+  //       },
+  //     });
   
-      const data = await response.json();
+  //     const data = await response.json();
   
-      if (data.success) {
-        setTasks({
-          dailyTasks: data.dailyTasks,
-          weeklyTasks: data.weeklyTasks,
-          monthlyTasks: data.monthlyTasks,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
+  //     if (data.success) {
+  //       setTasks({
+  //         dailyTasks: data.dailyTasks,
+  //         weeklyTasks: data.weeklyTasks,
+  //         monthlyTasks: data.monthlyTasks,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching tasks:", error);
+  //   }
+  // };
   
-  useEffect(() => {
-    fetchTasks();
-  }, []);
+  // useEffect(() => {
+  //   fetchTasks();
+  // }, []);
   
   // console.log("All taks ", tasks)
 
@@ -83,7 +83,7 @@ const CoinProvider = ({ children }) => {
       value={{
         totalCoins,
         addCoins,
-        fetchTasks,
+        // fetchTasks,
         setTasks,
         tasks
       }}

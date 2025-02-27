@@ -8,89 +8,7 @@ import giftGif from "../../assets/images/Confetti.gif";
 import { useNavigate } from "react-router-dom";
 
 const Game = () => {
-//  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-//   const [questionData, setQuestionData] = useState(questions[currentQuestionIndex]);
-//   const [selectedAnswer, setSelectedAnswer] = useState(null);
-//   const [isCorrect, setIsCorrect] = useState(false);
-//   const [showHintModal, setShowHintModal] = useState(false);
-//   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-//   const [timer, setTimer] = useState(15);
-//   const [gameFinished, setGameFinished] = useState(false);
-//   const [gamePoints, setGamePoints] = useState(0);
-  
-//   const [playedQuestions, setPlayedQuestions] = useState(
-//     JSON.parse(localStorage.getItem("playedQuestions")) || []
-//   );
 
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (gameFinished) {
-//       setTimer(0);
-//       setTimeout(() => {
-//         localStorage.removeItem("playedQuestions"); 
-//         navigate("/");
-//       }, 2000);
-//       return;
-//     }
-
-//     if (currentQuestionIndex < questions.length) {
-//       setQuestionData(questions[currentQuestionIndex]);
-//       setSelectedAnswer(null);
-//       setIsCorrect(false);
-//       setTimer(15);
-
-//       const interval = setInterval(() => {
-//         setTimer((prevTime) => {
-//           if (prevTime === 1) {
-//             clearInterval(interval);
-//             handleNextQuestion(); // Auto move to next question when timer expires
-//           }
-//           return prevTime - 1;
-//         });
-//       }, 1000);
-
-//       return () => clearInterval(interval);
-//     }
-//   }, [currentQuestionIndex, gameFinished]);
-
-//   const handleAnswerSelection = (answer) => {
-//     setSelectedAnswer(answer);
-//     setShowFeedbackModal(true);
-
-//     let earnedCoins = answer === questionData.correct_answer ? 10 : 0;
-//     setIsCorrect(answer === questionData.correct_answer);
-//     setGamePoints((prevPoints) => prevPoints + earnedCoins);
-
-//     // Save played question by ID
-//     const updatedPlayedQuestions = [...playedQuestions, questionData.id];
-//     setPlayedQuestions(updatedPlayedQuestions);
-//     localStorage.setItem("playedQuestions", JSON.stringify(updatedPlayedQuestions));
-
-//     setTimeout(() => {
-//       setShowFeedbackModal(false);
-//       handleNextQuestion(); // Move to the next question after answer selection
-//     }, 500);
-//   };
-
-//   const handleNextQuestion = () => {
-//     let nextIndex = findNextUnplayedQuestion();
-//     if (nextIndex === -1) {
-//       setGameFinished(true);
-//     } else {
-//       setCurrentQuestionIndex(nextIndex);
-//       setTimer(15); // Reset timer when moving to the next question
-//     }
-//   };
-
-//   const findNextUnplayedQuestion = () => {
-//     for (let i = 0; i < questions.length; i++) {
-//       if (!playedQuestions.includes(questions[i].id)) {
-//         return i;
-//       }
-//     }
-//     return -1; // No more questions left
-//   };
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questionData, setQuestionData] = useState(questions[currentQuestionIndex]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -99,7 +17,7 @@ const Game = () => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [timer, setTimer] = useState(15);
   const [gameFinished, setGameFinished] = useState(false);
-  const [gamePoints, setGamePoints] = useState(0); // Reset on reload
+  const [gamePoints, setGamePoints] = useState(0); 
 
   const navigate = useNavigate();
 
@@ -132,20 +50,29 @@ const Game = () => {
     }
   }, [currentQuestionIndex, gameFinished]);
 
-  const handleAnswerSelection = (answer) => {
-    setSelectedAnswer(answer);
-    setShowFeedbackModal(true);
+useEffect(() => {
+  localStorage.setItem("gamePoints", gamePoints);
+}, [gamePoints]);
 
-    let earnedCoins = answer === questionData.correct_answer ? 10 : 0;
-    setIsCorrect(answer === questionData.correct_answer);
+const handleAnswerSelection = (answer) => {
+  setSelectedAnswer(answer);
+  setShowFeedbackModal(true);
 
-    setGamePoints((prevPoints) => prevPoints + earnedCoins); // Temporary state (resets on reload)
+  let earnedCoins = answer === questionData.correct_answer ? 10 : 0;
+  setIsCorrect(answer === questionData.correct_answer);
 
-    setTimeout(() => {
-      setShowFeedbackModal(false);
-      handleNextQuestion();
-    }, 500);
-  };
+  setGamePoints((prevPoints) => {
+    const newPoints = prevPoints + earnedCoins;
+    localStorage.setItem("gamePoints", newPoints); 
+    return newPoints;
+  });
+
+  setTimeout(() => {
+    setShowFeedbackModal(false);
+    handleNextQuestion();
+  }, 500);
+};
+
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -252,6 +179,91 @@ const Game = () => {
 };
 
 export default Game;
+
+
+//  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+//   const [questionData, setQuestionData] = useState(questions[currentQuestionIndex]);
+//   const [selectedAnswer, setSelectedAnswer] = useState(null);
+//   const [isCorrect, setIsCorrect] = useState(false);
+//   const [showHintModal, setShowHintModal] = useState(false);
+//   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+//   const [timer, setTimer] = useState(15);
+//   const [gameFinished, setGameFinished] = useState(false);
+//   const [gamePoints, setGamePoints] = useState(0);
+  
+//   const [playedQuestions, setPlayedQuestions] = useState(
+//     JSON.parse(localStorage.getItem("playedQuestions")) || []
+//   );
+
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     if (gameFinished) {
+//       setTimer(0);
+//       setTimeout(() => {
+//         localStorage.removeItem("playedQuestions"); 
+//         navigate("/");
+//       }, 2000);
+//       return;
+//     }
+
+//     if (currentQuestionIndex < questions.length) {
+//       setQuestionData(questions[currentQuestionIndex]);
+//       setSelectedAnswer(null);
+//       setIsCorrect(false);
+//       setTimer(15);
+
+//       const interval = setInterval(() => {
+//         setTimer((prevTime) => {
+//           if (prevTime === 1) {
+//             clearInterval(interval);
+//             handleNextQuestion(); // Auto move to next question when timer expires
+//           }
+//           return prevTime - 1;
+//         });
+//       }, 1000);
+
+//       return () => clearInterval(interval);
+//     }
+//   }, [currentQuestionIndex, gameFinished]);
+
+//   const handleAnswerSelection = (answer) => {
+//     setSelectedAnswer(answer);
+//     setShowFeedbackModal(true);
+
+//     let earnedCoins = answer === questionData.correct_answer ? 10 : 0;
+//     setIsCorrect(answer === questionData.correct_answer);
+//     setGamePoints((prevPoints) => prevPoints + earnedCoins);
+
+//     // Save played question by ID
+//     const updatedPlayedQuestions = [...playedQuestions, questionData.id];
+//     setPlayedQuestions(updatedPlayedQuestions);
+//     localStorage.setItem("playedQuestions", JSON.stringify(updatedPlayedQuestions));
+
+//     setTimeout(() => {
+//       setShowFeedbackModal(false);
+//       handleNextQuestion(); // Move to the next question after answer selection
+//     }, 500);
+//   };
+
+//   const handleNextQuestion = () => {
+//     let nextIndex = findNextUnplayedQuestion();
+//     if (nextIndex === -1) {
+//       setGameFinished(true);
+//     } else {
+//       setCurrentQuestionIndex(nextIndex);
+//       setTimer(15); // Reset timer when moving to the next question
+//     }
+//   };
+
+//   const findNextUnplayedQuestion = () => {
+//     for (let i = 0; i < questions.length; i++) {
+//       if (!playedQuestions.includes(questions[i].id)) {
+//         return i;
+//       }
+//     }
+//     return -1; // No more questions left
+//   };
 
 // import React, { useState, useEffect } from "react";
 // import "./Game.css";

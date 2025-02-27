@@ -7,13 +7,13 @@
   padding-top: 20px;
 }
 
-.invite-title{
-    font-weight: 400;
-    font-size: 17px;
+.invite-title {
+  font-weight: 400;
+  font-size: 17px;
 }
 
 .invite-innner-container {
-  border-top: 2px solid #3669BB;
+  border-top: 2px solid #3669bb;
   border-radius: 50px;
   width: 100%;
   display: flex;
@@ -31,7 +31,7 @@
 
 .invite-link-div {
   border-radius: 10px;
-  background: #282D33;
+  background: #282d33;
   padding: 40px 20px;
   display: flex;
   gap: 20px;
@@ -48,34 +48,35 @@
   gap: 20px;
 }
 
-.invite-link-div span{
-    font-size: 12px;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    /* white-space: nowrap; */
-    display: block;
-    max-width: 100%;
-    text-align: center;
+.invite-link-div span {
+  font-size: 12px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* white-space: nowrap; */
+  display: block;
+  max-width: 100%;
+  text-align: center;
 }
 
-.invite-link-div svg{
-    height: fit-content;
-    cursor: pointer;
-    color: #3669BB;
+.invite-link-div svg {
+  height: fit-content;
+  cursor: pointer;
+  color: #3669bb;
 }
-.invite-link-main-div h5{
+.invite-link-main-div h5 {
   font-size: 18px;
 }
 
-.invite-contact-btn{
+.invite-contact-btn {
   border-radius: 10px;
-background: #3669bb;
-font-size: 16px;
-color: #fff;
-padding: 12px;
-border: none;
-width: 40%;
-margin-top: 20px;
-cursor: pointer;
+  background: #3669bb;
+  font-size: 16px;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  width: 40%;
+  margin-top: 20px;
+  cursor: pointer;
+  margin-bottom: 50px;
 }

@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.png";
 import "./Invite.css";
@@ -11,28 +8,28 @@ const Invite = () => {
   const [contacts, setContacts] = useState([]);
   const [inviteLink, setInviteLink] = useState(
     "https://www.figma.com/design/mWmu9Rb8ALftqqQ6KaCrF3/Untitled?node-id=0-1&p=f&t=m9JS6gUXwP1kYIpa-0"
-  ); // ✅ Show base link first
+  ); 
   const [isFetching, setIsFetching] = useState(false);
-  const [referralId, setReferralId] = useState(""); // ✅ Store referral ID separately
+  const [referralId, setReferralId] = useState("");
   const apiIp = process.env.REACT_APP_API_URL;
 
   const fetchInviteId = async () => {
-    const walletAddress = localStorage.getItem("walletAddress");
+    const telegramUserId = localStorage.getItem("telegramUserId");
     try {
       setIsFetching(true);
       const response = await fetch(`${apiIp}api/invite`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "wallet-address": walletAddress,
+          "telegram-id": telegramUserId,
         },
       });
 
       const data = await response.json();
       console.log("Data from invite API:", data);
 
-      if (data.success && data.referralId) { // ✅ Ensure referralId exists
-        setReferralId(data.referralId); // ✅ Store referral ID
+      if (data.success && data.referralId) {
+        setReferralId(data.referralId);
       } else {
         console.error("❌ Failed to get invite ID:", data.error);
       }
@@ -45,7 +42,7 @@ const Invite = () => {
 
   const fetchContacts = async () => {
     if (!referralId) {
-      await fetchInviteId(); // ✅ Fetch referral ID before sharing
+      await fetchInviteId();
     }
 
     const fullInviteLink = `${inviteLink}/${referralId}`;
@@ -120,18 +117,18 @@ const Invite = () => {
     }
   };
   const copyToClipboard = () => {
-        if (!inviteLink || inviteLink.includes("Failed")) return;
-    
-        navigator.clipboard
-          .writeText(inviteLink)
-          .then(() => {
-            setShowModal(true);
-            setTimeout(() => setShowModal(false), 2000);
-          })
-          .catch((err) => {
-            console.error("❌ Failed to copy text: ", err);
-          });
-      };
+    if (!inviteLink || inviteLink.includes("Failed")) return;
+
+    navigator.clipboard
+      .writeText(inviteLink)
+      .then(() => {
+        setShowModal(true);
+        setTimeout(() => setShowModal(false), 2000);
+      })
+      .catch((err) => {
+        console.error("❌ Failed to copy text: ", err);
+      });
+  };
   return (
     <div className="invite-container">
       <span className="invite-title">Folks Finance</span>
@@ -141,9 +138,7 @@ const Invite = () => {
           <h5>Invite Link</h5>
           <div className="invite-link-div">
             <span>
-              {referralId
-                ? `${inviteLink}/${referralId}`
-                : inviteLink} {/* ✅ Show base link first */}
+              {referralId ? `${inviteLink}/${referralId}` : inviteLink}
             </span>
             <IoCopyOutline
               size={20}
@@ -160,7 +155,6 @@ const Invite = () => {
         </button>
       </div>
 
-      {/* ✅ Copy Success Modal */}
       {showModal && (
         <div className="modal-background">
           <div className="modal-content">
@@ -200,10 +194,10 @@ export default Invite;
 //           "wallet-address": walletAddress,
 //         },
 //       });
-  
+
 //       const data = await response.json();
 //       console.log("Data from invite API:", data);
-  
+
 //       if (data.success && data.referralId) { // ✅ Ensure referralId exists
 //         const inviteUrl = `https://www.figma.com/design/mWmu9Rb8ALftqqQ6KaCrF3/Untitled?node-id=0-1&p=f&t=m9JS6gUXwP1kYIpa-0/${data.referralId}`;
 //         console.log("InviteURL:", inviteUrl);
@@ -219,7 +213,7 @@ export default Invite;
 //       setIsFetching(false); // ✅ Hide "Generating link..."
 //     }
 //   };
-  
+
 //   const copyToClipboard = () => {
 //     if (!inviteLink || inviteLink.includes("Failed")) return;
 
@@ -345,4 +339,3 @@ export default Invite;
 // };
 
 // export default Invite;
-

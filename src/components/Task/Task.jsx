@@ -3,28 +3,36 @@ import "./Task.css";
 import coinIcon from "../../assets/images/bitcoin.svg";
 import { CoinContext } from "../../context/CoinContext";
 
-const Task = () => {
+const Task = ({ telegramUserId }) => {
+  const telegramUserIdHeader = localStorage.getItem("telegramUserId");
+  console.log(" telegramUserIdHeader Found====", telegramUserIdHeader);
+
   const { addCoins } = useContext(CoinContext);
   const [activeTab, setActiveTab] = useState("dailyTasks");
-  const [tasks, setTasks] = useState({ dailyTasks: [], weeklyTasks: [], monthlyTasks: [] });
+  const [tasks, setTasks] = useState({
+    dailyTasks: [],
+    weeklyTasks: [],
+    monthlyTasks: [],
+  });
   const [loading, setLoading] = useState(true);
-  const [isWalletConnected, setWalletConnected] = useState(false);  // Add state for wallet connection
   const apiIp = process.env.REACT_APP_API_URL;
-  const walletAddress = localStorage.getItem("walletAddress");
 
-  // Fetch tasks from the API
-  const fetchTasks = async () => {
+  const fetchTasks = async () => { 
+    if (!telegramUserIdHeader) {
+      alert("Data Not Found");
+      return;
+    }
     try {
-      setLoading(true);
+      console.log("Fetching tasks for telegramId:", telegramUserIdHeader);
       const response = await fetch(`${apiIp}api/tasks`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          "wallet-address": walletAddress,
+          "telegram-id": telegramUserIdHeader,
         },
       });
 
       const data = await response.json();
+      console.log("Fetched tasks:", data);
 
       if (data.success) {
         setTasks({
@@ -40,15 +48,14 @@ const Task = () => {
     } finally {
       setLoading(false);
     }
-  };
+};
 
-  useEffect(() => {
-    if (walletAddress) {
-      setWalletConnected(true);
-    } else {
-      setWalletConnected(false); 
-    }
-  }, [walletAddress]);
+
+useEffect(() => {
+    fetchTasks();
+}, [telegramUserIdHeader]);
+
+
 
   const switchTab = (tab) => {
     setActiveTab(tab);
@@ -65,7 +72,7 @@ const Task = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "wallet-address": walletAddress,
+            "telegram-id": telegramUserIdHeader,
           },
           body: JSON.stringify({
             taskId: task.id,
@@ -78,7 +85,8 @@ const Task = () => {
 
         if (data.success) {
           markTaskCompleted(task, taskType);
-          fetchTasks();
+          // fetchTasks();
+          window.location.reload();
         } else {
           alert(data.error);
         }
@@ -95,7 +103,7 @@ const Task = () => {
         t.id === task.id ? { ...t, completed: true } : t
       ),
     }));
-    addCoins(task.coins); 
+    addCoins(task.coins);
   };
 
   return (
@@ -107,60 +115,61 @@ const Task = () => {
             className={`tab-button ${activeTab === tab ? "active" : ""}`}
             onClick={() => switchTab(tab)}
           >
-            {tab.replace(/([A-Z])/g, " $1").trim().charAt(0).toUpperCase() +
-              tab.replace(/([A-Z])/g, " $1").trim().slice(1)}
+            {tab
+              .replace(/([A-Z])/g, " $1")
+              .trim()
+              .charAt(0)
+              .toUpperCase() +
+              tab
+                .replace(/([A-Z])/g, " $1")
+                .trim()
+                .slice(1)}
           </button>
         ))}
       </div>
 
-      {isWalletConnected ? (
-        loading ? (
+      <div className="task-list">
+        {loading ? (
           <p className="loading-text">Loading tasks...</p>
-        ) : (
-          <div className="task-list">
-            {tasks[activeTab]?.length > 0 ? (
-              tasks[activeTab].map((task) => (
-                <div
-                  key={task.id}
-                  className={`task-card ${task.completed ? "disabled-card" : ""}`}
-                >
-                  <div className="task-header">
+        ) : tasks[activeTab]?.length > 0 ? (
+          tasks[activeTab].map((task) => (
+            <div
+              key={task.id}
+              className={`task-card ${task.completed ? "disabled-card" : ""}`}
+            >
+              <div className="task-header">
+                <img
+                  src={task.icon}
+                  alt={task.platform}
+                  className="task-icon"
+                />
+                <div className="task-content">
+                  <h3 className="task-title">{task.platform}</h3>
+                  <p className="task-desc">{task.description}</p>
+                  <p className="coin-reward">
                     <img
-                      src={task.icon}
-                      alt={task.platform}
-                      className="task-icon"
-                    />
-                    <div className="task-content">
-                      <h3 className="task-title">{task.platform}</h3>
-                      <p className="task-desc">{task.description}</p>
-                      <p className="coin-reward">
-                        <img
-                          src={coinIcon}
-                          alt="Coins"
-                          className="coin-icon-task"
-                        />{" "}
-                        {task.coins} coins{" "}
-                        {task.completed && "(Added to your account)"}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => handleTaskClick(task, activeTab)}
-                    className={`task-btn ${task.completed ? "completed" : ""}`}
-                    disabled={task.completed}
-                  >
-                    {task.completed ? "Completed" : "Subscribe"}
-                  </button>
+                      src={coinIcon}
+                      alt="Coins"
+                      className="coin-icon-task"
+                    />{" "}
+                    {task.coins} coins{" "}
+                    {task.completed && "(Added to your account)"}
+                  </p>
                 </div>
-              ))
-            ) : (
-              <p className="no-tasks">No tasks available for this category.</p>
-            )}
-          </div>
-        )
-      ) : (
-        <p className="no-tasks">Please Connect Wallet To Get Your Tasks.</p>
-      )}
+              </div>
+              <button
+                onClick={() => handleTaskClick(task, activeTab)}
+                className={`task-btn ${task.completed ? "completed" : ""}`}
+                disabled={task.completed}
+              >
+                {task.completed ? "Completed" : "Subscribe"}
+              </button>
+            </div>
+          ))
+        ) : (
+          <p className="no-tasks">No tasks available for this category.</p>
+        )}
+      </div>
     </div>
   );
 };

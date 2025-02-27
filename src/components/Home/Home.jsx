@@ -35,17 +35,50 @@ const Home = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [walletMessage, setWalletMessage] = useState("");
   const [coins, setCoins] = useState([]);
-
+  const [telegramUserId, setTelegramUserId] = useState(null);
   const effectRan = useRef(false);
+  const [isTelegramSaved, setIsTelegramSaved] = useState(false);
 
   useEffect(() => {
-    if (userFriendlyAddress) {
-      sendWalletAddress();
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      const user = window.Telegram.WebApp.initDataUnsafe.user;
+      if (user) {
+        const telegramUserId = user.id;
+        console.log("telegramUserId", telegramUserId);
+        setTelegramUserId(telegramUserId);
+        localStorage.setItem("telegramUserId", telegramUserId);
+        fetch(`${apiIp}api/save-telegram-id`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            telegramUserId: telegramUserId,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Telegram ID saved:", data);
+            if (data.message ==="Telegram user ID successfully saved") {
+              setIsTelegramSaved(true);
+            }
+            else if(data.message==="User With this Telegram ID already exist"){
+              setIsTelegramSaved(true);
+            }
+          })
+          .catch((err) => console.error("Error sending Telegram ID:", err));
+      }
     }
-  }, [userFriendlyAddress]);
+  }, []);
+
+  useEffect(() => {
+    if (telegramUserId) {
+    }
+  }, []);
 
   const sendWalletAddress = async () => {
-    if (!userFriendlyAddress) return;
+    console.log("Sending wallet address:", userFriendlyAddress);
 
     try {
       const response = await fetch(`${apiIp}api/connectWallet`, {
@@ -57,24 +90,15 @@ const Home = () => {
       });
 
       const data = await response.json();
-      console.log("API Response:", data);
+      console.log("Wallet Connection API Response:", data);
 
       if (response.ok && data.success) {
         setWalletConnected(true);
-        setEarnPerTap(data.user.tapPoints);
-        setGamePoints(data.user.gamePoints);
-        setTaskPoints(data.user.taskPoints);
-        setTotalPoints(data.user.totalPoints);
-        // setName(`${data.user.firstName} ${data.user.lastName}`);
-        if (
-          data.user.firstName.trim() !== "" ||
-          data.user.lastName.trim() !== ""
-        ) {
-          setName(`${data.user.firstName} ${data.user.lastName}`);
-        } else {
-          setName("Hello User");
-        }
         localStorage.setItem("walletAddress", userFriendlyAddress);
+        console.log(
+          "Wallet address saved to localStorage:",
+          userFriendlyAddress
+        );
       } else {
         console.error(
           "Wallet connection failed:",
@@ -87,23 +111,49 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (walletConnected) {
-      const fetchBalance = async () => {
-        try {
-          const response = await fetch(
-            `https://tonapi.io/v2/accounts/${encodeURIComponent(
-              userFriendlyAddress
-            )}`
-          );
-          const data = await response.json();
-          setBalance(data.balance);
-        } catch (error) {
-          console.error("Error fetching balance:", error);
-        }
-      };
-      fetchBalance();
+    if (userFriendlyAddress) {
+      sendWalletAddress();
     }
-  }, [walletConnected]);
+  }, [userFriendlyAddress]);
+
+  useEffect(() => {
+    if (!isTelegramSaved || !telegramUserId) return;
+    console.log("Fetching user data...");
+
+    const getUserData = async () => {
+      try {
+        const response = await fetch(`${apiIp}api/user`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "telegram-id": telegramUserId,
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log("User Data Response:", result);
+
+          setEarnPerTap(result.user.tapPoints);
+          setGamePoints(result.user.gamePoints);
+          setTaskPoints(result.user.taskPoints);
+          setTotalPoints(result.user.totalPoints);
+
+          if (result.user.firstName?.trim() || result.user.lastName?.trim()) {
+            setName(`${result.user.firstName} ${result.user.lastName}`);
+          } else {
+            setName("Hello User");
+          }
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    getUserData();
+  }, [telegramUserId, isTelegramSaved]);
 
   const removeAddress = () => {
     setWalletInfo(null);
@@ -111,7 +161,7 @@ const Home = () => {
     localStorage.removeItem("walletConnected");
     localStorage.removeItem("walletAddress");
     setEarnPerTap(0);
-    setGamePoints(0);
+    // setGamePoints(0);
     setTaskPoints(0);
     setTotalPoints(0);
   };
@@ -124,28 +174,24 @@ const Home = () => {
         removeAddress();
       }
     });
-
     return () => unsubscribe();
   }, [tonConnectUI]);
 
   const handleImagePress = async () => {
-    if (!walletConnected) {
-      setWalletMessage("Please connect your wallet first!");
-      setTimeout(() => setWalletMessage(""), 2000);
+    if (!isTelegramSaved) {
+      console.log("Waiting for Telegram API to complete...");
       return;
     }
-
-    if (tapLimitReached) return;
-
     setIsPressed(true);
-    const walletAddress = localStorage.getItem("walletAddress");
+    const telegramUserId = localStorage.getItem("telegramUserId");
 
     try {
+      console.log("Sending tap points update request...");
       const response = await fetch(`${apiIp}api/updateTapPoints`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "wallet-address": walletAddress,
+          "telegram-id": telegramUserId,
         },
         body: JSON.stringify({ walletAddress: userFriendlyAddress, points: 2 }),
       });
@@ -197,7 +243,7 @@ const Home = () => {
       <div className="home-header">
         <div className="profile-div">
           <img src={unionlogo} alt="Union Logo" />
-          {/* <h5>{name ? name:'Hello User'} </h5> */}
+
           <h5>{name && name !== "" ? name : "Hello User"}</h5>
         </div>
         <div className="folkImage-div">
@@ -230,7 +276,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-
+        {/* <h4>TelegramUserId: {telegramUserId}</h4> */}
         <div className="home-div2">
           <img src={bitcoinImage} alt="Bitcoin" />
           {totalPoints !== null ? <h4>{totalPoints}</h4> : <h4>Loading</h4>}
@@ -275,19 +321,22 @@ const Home = () => {
         {modalOpen && (
           <div className="modal-overlay">
             <div className="modal-content">
-              {/* <h3>Error</h3> */}
               <p>{modalMessage}</p>
-              {/* <button onClick={() => setModalOpen(false)}>Close</button> */}
             </div>
           </div>
         )}
       </div>
 
-      <Task
-        walletConnected={walletConnected}
-        updateTaskPoints={(points) => setTaskPoints((prev) => prev + points)}
-        updateTotalPoints={(points) => setTotalPoints((prev) => prev + points)}
-      />
+      {isTelegramSaved && (
+        <Task
+          telegramUserId={telegramUserId}
+          // isTelegramSaved={isTelegramSaved}
+          updateTaskPoints={(points) => setTaskPoints((prev) => prev + points)}
+          updateTotalPoints={(points) =>
+            setTotalPoints((prev) => prev + points)
+          }
+        />
+      )}
     </div>
   );
 };

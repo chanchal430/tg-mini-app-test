@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 const ProfileUpdate = () => {
   const apiIp=process.env.REACT_APP_API_URL
   const navigate = useNavigate()
-  const walletAddress = localStorage.getItem("walletAddress");
+  const telegramUserId = localStorage.getItem("telegramUserId");
   const [form, setForm] = useState({
-    walletAddress: walletAddress,
+    telegramUserId: telegramUserId,
     firstName: "",
     lastName: "",
     email: "",
@@ -15,7 +15,7 @@ const ProfileUpdate = () => {
 
 
   const [isEmailEditable, setIsEmailEditable] = useState(true);
-console.log('walletAddress From Profile===', walletAddress)
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -33,7 +33,7 @@ console.log('walletAddress From Profile===', walletAddress)
         method: "PUT",
         headers: {
           "Content-type": "application/json",
-          "wallet-address": walletAddress
+          "telegram-id": telegramUserId
         },
         body: JSON.stringify(form),
       });
@@ -53,7 +53,7 @@ console.log('walletAddress From Profile===', walletAddress)
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          "wallet-address": `${walletAddress}`,
+          "telegram-id": `${telegramUserId}`,
         },
       });
       if (response.ok) {
@@ -67,7 +67,6 @@ console.log('walletAddress From Profile===', walletAddress)
           email: result.user.email || "",
         }));
 
-        // If email is empty, allow editing. Otherwise, make it read-only.
         setIsEmailEditable(!result.user.email);
       } else {
         console.error("Failed to fetch user data");
@@ -111,7 +110,7 @@ console.log('walletAddress From Profile===', walletAddress)
               name="email"
               value={form.email}
               onChange={handleInputChange}
-              readOnly={!isEmailEditable} // Email is only editable if it was empty initially
+              readOnly={!isEmailEditable} 
             />
           </div>
 

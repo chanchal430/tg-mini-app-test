@@ -5,7 +5,6 @@ import { CoinContext } from "../../context/CoinContext";
 
 const Task = ({ telegramUserId }) => {
   const telegramUserIdHeader = localStorage.getItem("telegramUserId");
-  console.log(" telegramUserIdHeader Found====", telegramUserIdHeader);
 
   const { addCoins } = useContext(CoinContext);
   const [activeTab, setActiveTab] = useState("dailyTasks");
@@ -23,7 +22,6 @@ const Task = ({ telegramUserId }) => {
       return;
     }
     try {
-      console.log("Fetching tasks for telegramId:", telegramUserIdHeader);
       const response = await fetch(`${apiIp}api/tasks`, {
         method: "GET",
         headers: {
@@ -32,7 +30,6 @@ const Task = ({ telegramUserId }) => {
       });
 
       const data = await response.json();
-      console.log("Fetched tasks:", data);
 
       if (data.success) {
         setTasks({

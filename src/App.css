@@ -24,7 +24,7 @@ body{
   flex-direction: column;
 }
 
-/* Footer stays at the bottom */
+
 .footer {
   display: flex;
   justify-content: space-around;

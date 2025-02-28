@@ -74,7 +74,6 @@ const Home = () => {
 
 
   const sendWalletAddress = async () => {
-    console.log("Sending wallet address:", userFriendlyAddress);
 
     try {
       const response = await fetch(`${apiIp}api/connectWallet`, {
@@ -114,7 +113,6 @@ const Home = () => {
 
   useEffect(() => {
     if (!isTelegramSaved || !telegramUserId) return;
-    console.log("Fetching user data...");
 
     const getUserData = async () => {
       try {

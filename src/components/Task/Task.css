@@ -1,0 +1,189 @@
+.task-main-container {
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 60px;
+}
+
+.task-container {
+  width: 90%;
+  margin: auto;
+  color: white;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.task-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 20px;
+  border-radius: 10px;
+  background: #32363c;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: #32363c;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 10px;
+  font-size: 15px;
+}
+.task-card.disabled-card {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.tab-button.active {
+  background: rgba(33, 36, 41, 0.9);
+  color: #fff;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.task-card {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #282d33;
+  font-family: "Montserrat", serif;
+}
+
+.task-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.coin-icon-task {
+  width: 14px;
+  height: 14px;
+}
+.task-icon {
+  height: 37px;
+}
+
+.no-tasks {
+  text-align: center;
+}
+
+.timer-text {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13.399px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15.632px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.task-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.task-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  background-color: #274f91;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  width: 100%;
+}
+.wallet-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.wallet-error p {
+  font-size: 16px;
+  padding-top: 120px;
+}
+
+.wallet-error img {
+  width: 30%;
+}
+
+.blurred {
+  filter: blur(5px);
+}
+
+.task-btn:last-child {
+  background-color: #3669bb;
+  color: #fff;
+}
+
+.task-h3 {
+  margin: 0px;
+  text-align: left;
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 17.865px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.task-desc {
+  margin: 0px;
+  color: #bbbec4;
+  font-size: 13.399px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15.632px;
+  text-align: left;
+}
+.task-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.task-title21 {
+  text-align: left;
+}
+
+.coin-reward {
+  text-align: left;
+  display: flex;
+  gap: 5px;
+  font-size: 12px;
+  justify-content: flex-start;
+  align-items: center;
+}
+.task-btn.completed {
+  background-color: #089b43;
+  color: white;
+}

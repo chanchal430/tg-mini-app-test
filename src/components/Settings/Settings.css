@@ -1,0 +1,61 @@
+.setting-main-container {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
+}
+.setting-title {
+  font-weight: 400;
+  font-size: 17px;
+  color: #fff;
+  padding-bottom: 20px;
+}
+.setting-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 2px solid #3669bb;
+  border-radius: 50px;
+  width: 100%;
+}
+
+.basic-setting-div {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  padding-bottom: 50px;
+}
+
+.basic-setting-div h4 {
+  font-size: 26px;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.basic-setting-div ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 18px;
+}
+
+.basic-setting-div ul li {
+  cursor: pointer;
+  list-style-type: none;
+display: flex;
+gap: 15px;
+}
+
+.basic-setting-div ul li a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+

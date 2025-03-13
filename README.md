@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# Folk Finance Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains the **Folk Finance** frontend, built using **React.js** and **JavScript**. The frontend interacts with the **Folk Finance Backend**, providing a seamless user interface for the Folk Finance TG Mini App.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- Node.js (v20 or higher recommended)
+- npm (v10 or higher)
+- A running instance of the **Folk Finance Backend**
+- A Telegram Bot created via **BotFather**
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Clone the repository
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```sh
+  git clone https://github.com/Folks-Finance/tg-mini-app-frontend-internal.git
+  cd tg-mini-app-frontend-internal
+```
 
-### `npm test`
+### Use the main branch
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Make sure you're on the **main** branch.
 
-### `npm run build`
+### Install dependencies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Run the following command to install all required dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+  npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Setup the `.env` file in the root folder
 
-### `npm run eject`
+Create a `.env` file in the root directory and add the following environment variables:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```env
+REACT_APP_API_URL= https://api-folk.defipredictor.com
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Setting Up the Telegram Bot
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To integrate the Telegram Mini App, follow these steps to create a bot using **BotFather**:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Open Telegram and search for `BotFather`.
+2. Start a chat and type `/newbot`.
+3. Follow the prompts to:
+   - Provide a **bot name** (e.g., `FolkFinanceBot`).
+   - Choose a **unique username** (e.g., `FolkFinanceMiniBot`).
+4. After successful creation, BotFather will provide a **BOT_TOKEN**.
+5. Copy the **BOT_TOKEN** and paste it into your `.env` file as `REACT_APP_BOT_TOKEN`.
+6. Configure the bot for Mini Apps by running the following command in **BotFather**:
+   ```
+   /setdomain
+   ```
+   Then, provide your appUrl for miniApp (e.g., `https://folkfinance.com`).
+7. You can now use this bot in the **Folk Finance TG Mini App**.
 
-## Learn More
+### Start the development server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Run the following command to start the frontend in development mode:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+  npm start
+```
 
-### Code Splitting
+The application will be available at `http://localhost:3000/` by default.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Build for production
 
-### Analyzing the Bundle Size
+To create a production-ready build, run:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```sh
+  npm run build
+```
 
-### Making a Progressive Web App
+This will generate an optimized build in the `build/` directory.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Deploying the frontend
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To deploy the frontend, upload the contents of the `build/` directory to a hosting provider such as **Vercel, Netlify, Firebase, or AWS S3**.

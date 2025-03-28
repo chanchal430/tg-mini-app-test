@@ -5,13 +5,13 @@ import React from "react";
 import Task from "../Task";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 const TaskMain = () => {
   return (
-    <div className="task-main-container">
-      <span className="task-title">Folks Finance</span>
-      <div className="task-main-container-div">
+    <div className={styles["task-main-container"]}>
+      <span className={styles["task-title"]}>Folks Finance</span>
+      <div className={styles["task-main-container-div"]}>
         <Task />
       </div>
     </div>

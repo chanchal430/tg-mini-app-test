@@ -9,19 +9,21 @@ import taskImage from "../../assets/images/grommet-icons_task.svg";
 import settingsImage from '../../assets/images/settings.svg'
 
 /** Styles */
-import "./styles.module.css"
+import styles from './styles.module.css'
 
 const Footer = () => {
+
   const location = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
   return (
-    <div className="footer-container">
+    <div className={styles["footer-container"]}>
       <div
-        className={`footer-card ${
-          location.pathname === "/" ? "active" : ""
-        }`}
+        className={`${styles['footer-card']} ${location.pathname === "/" ? "active" : ""
+          }`}
       >
         <Link to="/">
           <img src={homeImage} alt="Home" />
@@ -29,9 +31,8 @@ const Footer = () => {
         </Link>
       </div>
       <div
-        className={`footer-card ${
-          location.pathname === "/game" ? "active" : ""
-        }`}
+        className={`${styles['footer-card']} ${location.pathname === "/game" ? "active" : ""
+          }`}
       >
         <Link to={"/game"}>
           <img src={gameImage} alt="Game" />
@@ -39,9 +40,8 @@ const Footer = () => {
         </Link>
       </div>
       <div
-        className={`footer-card ${
-          location.pathname === "/task" ? "active" : ""
-        }`}
+        className={`${styles['footer-card']} ${location.pathname === "/task" ? "active" : ""
+          }`}
       >
         <Link to="/task">
           <img src={taskImage} alt="Task" />
@@ -49,9 +49,8 @@ const Footer = () => {
         </Link>
       </div>
       <div
-        className={`footer-card ${
-          location.pathname === "/settings" ? "active" : ""
-        }`}
+        className={`${styles['footer-card']} ${location.pathname === "/settings" ? "active" : ""
+          }`}
       >
         <Link to="/settings">
           <img src={settingsImage} alt="Settings" />

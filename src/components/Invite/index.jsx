@@ -6,7 +6,7 @@ import { IoCopyOutline } from "react-icons/io5";
 import logo from "../../assets/images/logo.png";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 const Invite = () => {
   const [showModal, setShowModal] = useState(false);
@@ -130,13 +130,13 @@ const Invite = () => {
   };
 
   return (
-    <div className="invite-container">
-      <span className="invite-title">Folks Finance</span>
-      <div className="invite-innner-container">
+    <div className={styles["invite-container"]}>
+      <span className={styles["invite-title"]}>Folks Finance</span>
+      <div className={styles["invite-innner-container"]}>
         <img src={logo} alt="Logo" />
-        <div className="invite-link-main-div">
+        <div className={styles["invite-link-main-div"]}>
           <h5>Invite Link</h5>
-          <div className="invite-link-div">
+          <div className={styles["invite-link-div"]}>
             <span>{inviteLink}</span>
             <IoCopyOutline
               size={20}
@@ -148,14 +148,14 @@ const Invite = () => {
             />
           </div>
         </div>
-        <button onClick={fetchContacts} className="invite-contact-btn">
+        <button onClick={fetchContacts} className={styles["invite-contact-btn"]}>
           Invite
         </button>
       </div>
 
       {showModal && (
-        <div className="modal-background">
-          <div className="modal-content">
+        <div className={styles["modal-background"]}>
+          <div className={styles["modal-content"]}>
             <p>✅ Link copied to clipboard!</p>
           </div>
         </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 const ProfileUpdate = () => {
   const apiIp=process.env.REACT_APP_API_URL
@@ -80,13 +80,13 @@ const ProfileUpdate = () => {
   }, []);
 
   return (
-    <div className="profile-main-container">
-      <span className="profile-title">Folks Finance</span>
-      <div className="profile-container">
-        <h4 className="update-profile-text">Update Profile</h4>
-        <form className="form-container" onSubmit={formSubmit}>
-          <div className="first-last-div">
-            <div className="first-div">
+    <div className={styles["profile-main-container"]}>
+      <span className={styles["profile-title"]}>Folks Finance</span>
+      <div className={styles["profile-container"]}>
+        <h4 className={styles["update-profile-text"]}>Update Profile</h4>
+        <form className={styles["form-container"]} onSubmit={formSubmit}>
+          <div className={styles["first-last-div"]}>
+            <div className={styles["first-div"]}>
               <p>First Name</p>
               <input
                 placeholder="John"
@@ -95,7 +95,7 @@ const ProfileUpdate = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="first-div">
+            <div className={styles["first-div"]}>
               <p>Last Name</p>
               <input
                 placeholder="Doe"
@@ -106,7 +106,7 @@ const ProfileUpdate = () => {
             </div>
           </div>
 
-          <div className="email-div">
+          <div className={styles["email-div"]}>
             <p>Email</p>
             <input
               placeholder="Email"
@@ -117,7 +117,7 @@ const ProfileUpdate = () => {
             />
           </div>
 
-          <button className="update-button" type="submit">
+          <button className={styles["update-button"]} type="submit">
             Update
           </button>
         </form>

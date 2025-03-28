@@ -8,15 +8,15 @@ import { FaRegHandPointRight } from "react-icons/fa";
 import logo from "../../assets/images/logo.png";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 const Settings = () => {
   return (
-    <div className="setting-main-container">
-      <span className="setting-title">Folks Finance</span>
-      <div className="setting-container">
-        <img src={logo} className="loginImage" alt="Logo" />
-        <div className="basic-setting-div">
+    <div className={styles["setting-main-container"]}>
+      <span className={styles["setting-title"]}>Folks Finance</span>
+      <div className={styles["setting-container"]}>
+        <img src={logo} className={styles["loginImage"]} alt="Logo" />
+        <div className={styles["basic-setting-div"]}>
           <h4>Basic Settings</h4>
           <ul>
             <li>

@@ -9,7 +9,7 @@ import questions from "../../data/questions.json";
 import giftGif from "../../assets/images/Confetti.gif";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 const Game = () => {
 
@@ -87,27 +87,27 @@ const handleAnswerSelection = (answer) => {
   };
 
   return (
-    <div className="game-container">
-      <span className="game-title">Folks Finance</span>
-      <div className="coin-counter">
-        <div className="timer-inner-coin">
-          <span className="coin-count">{gamePoints}</span>
-          <img src={bitcoin} alt="Coins" className="coin-icon" />
+    <div className={styles["game-container"]}>
+      <span className={styles["game-title"]}>Folks Finance</span>
+      <div className={styles["coin-counter"]}>
+        <div className={styles["timer-inner-coin"]}>
+          <span className={styles["coin-count"]}>{gamePoints}</span>
+          <img src={bitcoin} alt="Coins" className={styles["coin-icon"]} />
         </div>
-        <div className="timer">
-          <div className="timer-circle">{timer}</div>
+        <div className={styles["timer"]}>
+          <div className={styles["timer-circle"]}>{timer}</div>
         </div>
         <IoCloseCircleOutline size={30} onClick={() => navigate("/")} />
       </div>
 
       {gameFinished ? (
-        <div className="game-finished-container">
+        <div className={styles["game-finished-container"]}>
           {gamePoints === 0 ? (
-            <h2 className="oops-text">😞 Oops! Better Luck Next Time!</h2>
+            <h2 className={styles["oops-text"]}>😞 Oops! Better Luck Next Time!</h2>
           ) : (
             <>
-              <h2 className="congratulations-text">
-                🎉 Congratulations! You got <span className="highlighted">{gamePoints}</span> coins! 🎉
+              <h2 className={styles["congratulations-text"]}>
+                🎉 Congratulations! You got <span className={styles["highlighted"]}>{gamePoints}</span> coins! 🎉
               </h2>
               <img src={giftGif} alt="gift" />
             </>
@@ -115,13 +115,13 @@ const handleAnswerSelection = (answer) => {
         </div>
       ) : (
         <>
-          <div className="image-container">
+          <div className={styles["image-container"]}>
             <img
               src={require(`../../assets/images/${questionData.images[0]}`)}
               alt="First Hint"
               className="game-image"
             />
-            <span className="plus-sign">+</span>
+            <span className={styles["plus-sign"]}>+</span>
             <img
               src={require(`../../assets/images/${questionData.images[1]}`)}
               alt="Second Hint"
@@ -129,22 +129,22 @@ const handleAnswerSelection = (answer) => {
             />
           </div>
 
-          <div className="hint-section">
-            <p className="question-text">
+          <div className={styles["hint-section"]}>
+            <p className={styles["question-text"]}>
               Question {currentQuestionIndex + 1} of {questions.length}
             </p>
-            <span className="hint-text" onClick={() => setShowHintModal(true)}>
+            <span className={styles["hint-text"]} onClick={() => setShowHintModal(true)}>
               💡 Hint
             </span>
           </div>
 
-          <h2 className="guess-text">{questionData.question}</h2>
+          <h2 className={styles["guess-text"]}>{questionData.question}</h2>
 
-          <div className="options">
+          <div className={styles["options"]}>
             {questionData.options.map((option, index) => (
               <button
                 key={index}
-                className={`option-btn ${selectedAnswer === option ? (isCorrect ? "correct" : "wrong") : ""}`}
+                className={`${styles['option-btn']} ${selectedAnswer === option ? (isCorrect ? "correct" : "wrong") : ""}`}
                 onClick={() => handleAnswerSelection(option)}
                 disabled={selectedAnswer !== null}
               >
@@ -152,14 +152,14 @@ const handleAnswerSelection = (answer) => {
               </button>
             ))}
           </div>
-          <button className="skip-btn" onClick={handleNextQuestion}>
+          <button className={styles["skip-btn"]} onClick={handleNextQuestion}>
             Skip
           </button>
 
           {showHintModal && (
-            <div className="modal-background" onClick={() => setShowHintModal(false)}>
-              <div className="modal-content">
-                <span className="close-btn" onClick={() => setShowHintModal(false)}>
+            <div className={styles["modal-background"]} onClick={() => setShowHintModal(false)}>
+              <div className={styles["modal-content"]}>
+                <span className={styles["close-btn"]} onClick={() => setShowHintModal(false)}>
                   ✖
                 </span>
                 <h3>💡 Hint</h3>
@@ -169,8 +169,8 @@ const handleAnswerSelection = (answer) => {
           )}
 
           {showFeedbackModal && (
-            <div className="modal-background" onClick={() => setShowFeedbackModal(false)}>
-              <div className="modal-content">
+            <div className={styles["modal-background"]} onClick={() => setShowFeedbackModal(false)}>
+              <div className={styles["modal-content"]}>
                 <h3>{isCorrect ? "✅ Correct!" : "❌ Incorrect!"}</h3>
                 <p>{isCorrect ? "Moving to the next question..." : "Try again."}</p>
               </div>

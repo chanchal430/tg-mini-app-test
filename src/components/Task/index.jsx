@@ -8,7 +8,7 @@ import coinIcon from "../../assets/images/bitcoin.svg";
 import { CoinContext } from "../../context/CoinContext";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 
 const Task = ({ telegramUserId }) => {
@@ -109,12 +109,12 @@ const Task = ({ telegramUserId }) => {
   };
 
   return (
-    <div className="task-container">
-      <div className="task-tabs">
+    <div className={styles["task-container"]}>
+      <div className={styles["task-tabs"]}>
         {["dailyTasks", "weeklyTasks", "monthlyTasks"].map((tab) => (
           <button
             key={tab}
-            className={`tab-button ${activeTab === tab ? "active" : ""}`}
+            className={`${styles['tab-button']} ${activeTab === tab ? "active" : ""}`}
             onClick={() => switchTab(tab)}
           >
             {tab
@@ -130,29 +130,29 @@ const Task = ({ telegramUserId }) => {
         ))}
       </div>
 
-      <div className="task-list">
+      <div className={styles["task-list"]}>
         {loading ? (
-          <p className="loading-text">Loading tasks...</p>
+          <p className={styles["loading-text"]}>Loading tasks...</p>
         ) : tasks[activeTab]?.length > 0 ? (
           tasks[activeTab].map((task) => (
             <div
               key={task.id}
               className={`task-card ${task.completed ? "disabled-card" : ""}`}
             >
-              <div className="task-header">
+              <div className={styles["task-header"]}>
                 <img
                   src={task.icon}
                   alt={task.platform}
-                  className="task-icon"
+                  className={styles["task-icon"]}
                 />
-                <div className="task-content">
-                  <h3 className="task-title">{task.platform}</h3>
-                  <p className="task-desc">{task.description}</p>
+                <div className={styles["task-content"]}>
+                  <h3 className={styles["task-title"]}>{task.platform}</h3>
+                  <p className={styles["task-desc"]}>{task.description}</p>
                   <p className="coin-reward">
                     <img
                       src={coinIcon}
                       alt="Coins"
-                      className="coin-icon-task"
+                      className={styles["coin-icon-task"]}
                     />{" "}
                     {task.coins} coins{" "}
                     {task.completed && "(Added to your account)"}
@@ -161,7 +161,7 @@ const Task = ({ telegramUserId }) => {
               </div>
               <button
                 onClick={() => handleTaskClick(task, activeTab)}
-                className={`task-btn ${task.completed ? "completed" : ""}`}
+                className={`${styles['task-btn']} ${task.completed ? "completed" : ""}`}
                 disabled={task.completed}
               >
                 {task.completed ? "Completed" : "Subscribe"}
@@ -169,7 +169,7 @@ const Task = ({ telegramUserId }) => {
             </div>
           ))
         ) : (
-          <p className="no-tasks">No tasks available for this category.</p>
+          <p className={styles["no-tasks"]}>No tasks available for this category.</p>
         )}
       </div>
     </div>

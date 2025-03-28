@@ -17,7 +17,7 @@ import loader from "../../assets/images/Loader.gif";
 import Task from "../Task";
 
 /** Styles */
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 
 const Home = () => {
@@ -227,72 +227,72 @@ const Home = () => {
   };
 
   return (
-    <div className="home-container">
-      <h3 className="home-heading">Folks Finance</h3>
-      <div className="home-header">
-        <div className="profile-div">
+    <div className={styles["home-container"]}>
+      <h3 className={styles["home-heading"]}>Folks Finance</h3>
+      <div className={styles["home-header"]}>
+        <div className={styles["profile-div"]}>
           <img src={unionlogo} alt="Union Logo" />
 
           <h5>{name && name !== "" ? name : "Hello User"}</h5>
         </div>
-        <div className="folkImage-div">
+        <div className={styles["folkImage-div"]}>
           <img src={folkImage} alt="Folk Logo" />
           <h5>Folk</h5>
         </div>
       </div>
 
-      <div className="home-main-container">
-        <div className="home-main-cards">
-          <div className="home-main-card">
-            <span className="home-card1-span">Earn per tap</span>
-            <div className="home-bitcoin-card">
+      <div className={styles["home-main-container"]}>
+        <div className={styles["home-main-cards"]}>
+          <div className={styles["home-main-card"]}>
+            <span className={styles["home-card1-span"]}>Earn per tap</span>
+            <div className={styles["home-bitcoin-card"]}>
               <img src={bitcoinImage} alt="Bitcoin" />
               <span>+{earnPerTap}</span>
             </div>
           </div>
-          <div className="home-main-card">
-            <span className="home-card2-span">Earn from Tasks</span>
-            <div className="home-bitcoin-card">
+          <div className={styles["home-main-card"]}>
+            <span className={styles["home-card2-span"]}>Earn from Tasks</span>
+            <div className={styles["home-bitcoin-card"]}>
               <img src={bitcoinImage} alt="Bitcoin" />
               <span>+{taskPoints}</span>
             </div>
           </div>
-          <div className="home-main-card">
-            <span className="home-card3-span">Earn from Games</span>
-            <div className="home-bitcoin-card">
+          <div className={styles["home-main-card"]}>
+            <span className={styles["home-card3-span"]}>Earn from Games</span>
+            <div className={styles["home-bitcoin-card"]}>
               <img src={bitcoinImage} alt="Bitcoin" />
               <span>+{gamePoints}</span>
             </div>
           </div>
         </div>
-        <div className="home-div2">
+        <div className={styles["home-div2"]}>
           <img src={bitcoinImage} alt="Bitcoin" />
           {totalPoints !== null ? <h4>{totalPoints}</h4> : <h4>Loading</h4>}
         </div>
         <TonConnectButton />
         {walletConnected ? (
-          <div className="new-data">
+          <div className={styles["new-data"]}>
             <p>
               Wallet Balance:{" "}
               {balance !== null ? (
                 balance
               ) : (
-                <img src={loader} className="loader" />
+                <img src={loader} className={styles["loader"]} />
               )}
             </p>
           </div>
         ) : null}
 
-        <div className="gradient-container2"></div>
-        {walletMessage && <p className="wallet-message">{walletMessage}</p>}
+        <div className={styles["gradient-container2"]}></div>
+        {walletMessage && <p className={styles["wallet-message"]}>{walletMessage}</p>}
 
         <div
-          className={`logo-container ${tapLimitReached ? "disabled" : ""}`}
+          className={`${styles['logo-container']} ${tapLimitReached ? "disabled" : ""}`}
           onClick={tapLimitReached ? null : handleImagePress}
         >
           <img
             src={logo}
-            className={`home-image-logo ${isPressed ? "pressed" : ""}`}
+            className={`${styles['home-image-logo']} ${isPressed ? "pressed" : ""}`}
             alt="Logo"
           />
           {!tapLimitReached &&
@@ -300,14 +300,14 @@ const Home = () => {
               <img
                 key={coin.id}
                 src={bitcoinImage}
-                className="coin-animation"
+                className={styles["coin-animation"]}
                 alt="Coin"
               />
             ))}
         </div>
         {modalOpen && (
-          <div className="modal-overlay">
-            <div className="modal-content">
+          <div className={styles["modal-overlay"]}>
+            <div className={styles["modal-content"]}>
               <p>{modalMessage}</p>
             </div>
           </div>

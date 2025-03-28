@@ -1,18 +1,25 @@
+/** 3P Dependecies */
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+
+/** Helpers */
+import { CoinProvider } from "./context/CoinContext";
+
+/** Styles */
+import "./App.css";
+
+/** Components */
 import Home from "./components/Home";
 import Game from "./components/Game"
 import Invite from "./components/Invite";
 import TaskMain from "./components/TaskMain";
 import Footer from "./components/Footer";
-import { CoinProvider } from "./context/CoinContext";
-import "./App.css";
 import Settings from "./components/Settings";
 import ProfileUpdate from "./components/ProfileUpdate";
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 function App() {
   return (

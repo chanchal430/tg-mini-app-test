@@ -1,6 +1,9 @@
+/** 3P Dependecies */
 import React, { useEffect, useState } from "react";
-import "./ProfileUpdate.css";
 import { useNavigate } from "react-router-dom";
+
+/** Styles */
+import "./styles.module.css";
 
 const ProfileUpdate = () => {
   const apiIp=process.env.REACT_APP_API_URL

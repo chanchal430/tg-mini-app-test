@@ -1,7 +1,12 @@
+/** 3P Dependecies */
 import React, { useState, useEffect } from "react";
-import logo from "../../assets/images/logo.png";
-import "./Invite.css";
 import { IoCopyOutline } from "react-icons/io5";
+
+/** Assets */
+import logo from "../../assets/images/logo.png";
+
+/** Styles */
+import "./styles.module.css";
 
 const Invite = () => {
   const [showModal, setShowModal] = useState(false);

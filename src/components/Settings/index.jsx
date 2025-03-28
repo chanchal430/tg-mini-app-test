@@ -1,9 +1,14 @@
+/** 3P Dependecies */
 import React from "react";
-import "./Settings.css";
-import logo from "../../assets/images/logo.png";
 import { Link } from "react-router-dom";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { FaRegHandPointRight } from "react-icons/fa";
+
+/** Assets */
+import logo from "../../assets/images/logo.png";
+
+/** Styles */
+import "./styles.module.css";
 
 const Settings = () => {
   return (

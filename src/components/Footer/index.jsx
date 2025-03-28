@@ -1,10 +1,16 @@
+/** 3P Dependecies */
 import React, { useEffect } from "react";
-import "./Footer.css";
+import { Link, useLocation } from "react-router-dom";
+
+/** Assets */
 import homeImage from "../../assets/images/home.svg";
 import gameImage from "../../assets/images/mingcute_game-2-line.svg";
 import taskImage from "../../assets/images/grommet-icons_task.svg";
-import { Link, useLocation } from "react-router-dom";
 import settingsImage from '../../assets/images/settings.svg'
+
+/** Styles */
+import "./styles.module.css"
+
 const Footer = () => {
   const location = useLocation();
   useEffect(() => {

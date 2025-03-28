@@ -1,6 +1,12 @@
+/** 3P Dependecies */
 import React from "react";
-import Task from "../Task/Task";
-import "./TaskMain.css";
+
+/** Local Imports */
+import Task from "../Task";
+
+/** Styles */
+import "./styles.module.css";
+
 const TaskMain = () => {
   return (
     <div className="task-main-container">

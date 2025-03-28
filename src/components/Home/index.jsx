@@ -1,19 +1,27 @@
+/** 3P Dependecies */
 import React, { useEffect, useRef, useState } from "react";
-import "./Home.css";
-import logo from "../../assets/images/logo.png";
-import unionlogo from "../../assets/images/Union.svg";
-import folkImage from "../../assets/images/image 3.png";
-import bitcoinImage from "../../assets/images/bitcoin.svg";
-import Task from "../Task/Task";
 import {
   useTonAddress,
   useTonConnectUI,
   TonConnectButton,
 } from "@tonconnect/ui-react";
+
+/** Assets */
+import logo from "../../assets/images/logo.png";
+import unionlogo from "../../assets/images/Union.svg";
+import folkImage from "../../assets/images/image 3.png";
+import bitcoinImage from "../../assets/images/bitcoin.svg";
 import loader from "../../assets/images/Loader.gif";
 
+/** Local */
+import Task from "../Task";
+
+/** Styles */
+import "./styles.module.css";
+
+
 const Home = () => {
-  const apiIp = process.env.REACT_APP_API_URL;
+  const apiIp = process.env.REACT_APP_API_URL || 'https://api-folk.defipredictor.com';
   console.log("apiIp === ", apiIp);
 
   const userFriendlyAddress = useTonAddress();

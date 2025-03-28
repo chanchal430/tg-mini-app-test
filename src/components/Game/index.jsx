@@ -1,11 +1,15 @@
-
+/** 3P Dependecies */
 import React, { useState, useEffect } from "react";
-import "./Game.css";
+import { useNavigate } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
+
+/** Assets */
 import bitcoin from "../../assets/images/bitcoin.svg";
 import questions from "../../data/questions.json";
 import giftGif from "../../assets/images/Confetti.gif";
-import { useNavigate } from "react-router-dom";
+
+/** Styles */
+import "./styles.module.css";
 
 const Game = () => {
 

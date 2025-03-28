@@ -1,3 +1,4 @@
+/** 3P Dependecies */
 import React, { createContext, useEffect, useState } from "react";
 
 const CoinContext = createContext();

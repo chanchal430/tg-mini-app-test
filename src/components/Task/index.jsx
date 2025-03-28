@@ -1,7 +1,15 @@
+/** 3P Dependecies */
 import React, { useState, useEffect, useContext } from "react";
-import "./Task.css";
+
+/** Assets */
 import coinIcon from "../../assets/images/bitcoin.svg";
+
+/** Helpers */
 import { CoinContext } from "../../context/CoinContext";
+
+/** Styles */
+import "./styles.module.css";
+
 
 const Task = ({ telegramUserId }) => {
   const telegramUserIdHeader = localStorage.getItem("telegramUserId");

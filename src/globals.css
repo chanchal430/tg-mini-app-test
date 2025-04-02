@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  @font-face {
+    font-family: 'Luckiest Guy';
+    src: url('../public/fonts/LuckiestGuy.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo";
+    src: url("../public/fonts/Heebo-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo";
+    src: url("../public/fonts/Heebo-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo";
+    src: url("../public/fonts/Heebo-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo";
+    src: url("/fonts/Heebo-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo";
+    src: url("/fonts/Heebo-ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo";
+    src: url("/fonts/Heebo-Black.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  body {
+    font-family: "Heebo", sans-serif;
+  }
+}

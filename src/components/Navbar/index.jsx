@@ -11,7 +11,7 @@ import settingsImage from '../../assets/images/settings.svg'
 /** Styles */
 import styles from './styles.module.css'
 
-const Footer = () => {
+const Navbar = () => {
 
   const location = useLocation();
 
@@ -61,4 +61,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Navbar;

@@ -83,7 +83,7 @@
 .home-header {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
 }
 .new-data p {
   height: 30px;

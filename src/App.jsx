@@ -17,7 +17,7 @@ import Home from "./components/Home";
 import Game from "./components/Game"
 import Invite from "./components/Invite";
 import TaskMain from "./components/TaskMain";
-import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import Settings from "./components/Settings";
 import ProfileUpdate from "./components/ProfileUpdate";
 
@@ -64,7 +64,7 @@ const ProtectedLayout = () => {
           <Route path="/profile" element={<ProfileUpdate />} />
         </Routes>
       </div>
-      <Footer />
+      <Navbar />
     </div>
   );
 };

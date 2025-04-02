@@ -13,15 +13,18 @@ import folkImage from "../../assets/images/image 3.png";
 import bitcoinImage from "../../assets/images/bitcoin.svg";
 import loader from "../../assets/images/Loader.gif";
 
-/** Local */
-import Task from "../Task";
+/** Components */
+
+import ReferralModal from "../common/modal/ReferralModal";
+
 
 /** Styles */
 import styles from "./styles.module.css";
+import DailyRewardModal from "../common/modal/DailyRewardModal";
 
 
 const Home = () => {
-  const apiIp = process.env.REACT_APP_API_URL || 'https://api-folk.defipredictor.com';
+  const apiIp = process.env.REACT_APP_API_URL;
   console.log("apiIp === ", apiIp);
 
   const userFriendlyAddress = useTonAddress();
@@ -46,6 +49,9 @@ const Home = () => {
   const [telegramUserId, setTelegramUserId] = useState(null);
   const effectRan = useRef(false);
   const [isTelegramSaved, setIsTelegramSaved] = useState(true);
+  const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
+  const [showDailyReward, setShowDailyReward] = useState(false);
+  const [currentDay, setCurrentDay] = useState(1);
 
   useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
@@ -76,6 +82,16 @@ const Home = () => {
           })
           .catch((err) => console.error("Error sending Telegram ID:", err));
       }
+    }
+  }, []);
+
+  useEffect(() => {
+    const lastClaim = localStorage.getItem("lastClaimedAt");
+    const streak = parseInt(localStorage.getItem("rewardStreak") || "1");
+
+    if (!lastClaim || Date.now() - Number(lastClaim) > 24 * 60 * 60 * 1000) {
+      setCurrentDay(streak);
+      setShowDailyReward(true);
     }
   }, []);
 
@@ -226,6 +242,17 @@ const Home = () => {
     }, 150);
   };
 
+  const handleDailyRewardClaim = () => {
+    // Reward logic here (e.g., add points)
+
+    localStorage.setItem("lastClaimedAt", Date.now().toString());
+    let newStreak = currentDay + 1;
+    if (newStreak > 12) newStreak = 1;
+    localStorage.setItem("rewardStreak", newStreak.toString());
+
+    setShowDailyReward(false);
+  };
+
   return (
     <div className={styles["home-container"]}>
       <h3 className={styles["home-heading"]}>Folks Finance</h3>
@@ -314,7 +341,7 @@ const Home = () => {
         )}
       </div>
 
-      {isTelegramSaved && (
+      {/* {isTelegramSaved && (
         <Task
           telegramUserId={telegramUserId}
           updateTaskPoints={(points) => setTaskPoints((prev) => prev + points)}
@@ -322,7 +349,15 @@ const Home = () => {
             setTotalPoints((prev) => prev + points)
           }
         />
-      )}
+      )} */}
+
+      <ReferralModal isOpen={isReferralModalOpen} onClose={() => setIsReferralModalOpen(false)} />
+      <DailyRewardModal
+        isOpen={showDailyReward}
+        onClose={() => setShowDailyReward(false)}
+        onClaim={handleDailyRewardClaim}
+        currentDay={currentDay}
+      />
     </div>
   );
 };

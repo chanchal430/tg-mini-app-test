@@ -53,7 +53,7 @@ const Home = () => {
   const [showDailyReward, setShowDailyReward] = useState(false);
   const [currentDay, setCurrentDay] = useState(1);
 
-  useEffect(() => {
+useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       window.Telegram.WebApp.ready();
       const user = window.Telegram.WebApp.initDataUnsafe.user;

@@ -131,23 +131,17 @@
 }
 
 .folkImage-div {
-  border-radius: 10.581px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(78, 73, 73, 0.2) 100%
-  );
-  padding: 10px 15px;
+  padding: 4px 8px;
   display: flex;
   gap: 10px;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid #fff9ff;
+  border-radius: 12px;
 }
 
-
-.folkImage-div h5 {
-  width: 100%;
-  margin: 0px;
+.folkImage-div p{
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
 }
 
 .home-main-container {

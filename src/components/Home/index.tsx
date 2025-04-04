@@ -255,7 +255,7 @@ const Home = () => {
 
   return (
     <div className={styles["home-container"]}>
-      <h3 className={styles["home-heading"]}>Folks Finance</h3>
+      {/* <h3 className={styles["home-heading"]}>Folks Finance</h3>  */}
       <div className={styles["home-header"]}>
         <div className={styles["profile-div"]}>
           <img src={unionlogo} alt="Union Logo" />
@@ -264,7 +264,7 @@ const Home = () => {
         </div>
         <div className={styles["folkImage-div"]}>
           <img src={folkImage} alt="Folk Logo" />
-          <h5>Folk</h5>
+          <p>About Folk's</p>
         </div>
       </div>
 

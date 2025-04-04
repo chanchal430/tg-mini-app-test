@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from './styles.module.css'
 
 const rewards = [
   { label: "Day 1", value: "100" },

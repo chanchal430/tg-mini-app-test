@@ -24,12 +24,16 @@
     "tailwindcss": "^4.0.17"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && npm i --legacy-peer-deps",
-    "start-server": "npx pm2 start 'npx serve -s build -l 3001' --name 'folk-front'",
+    "dev": "cross-env NODE_ENV=development react-scripts start",
+    "build": "cross-env NODE_ENV=production react-scripts build && npm i --legacy-peer-deps",
+    "start": "npm run dev",
+    "start-server": "cross-env NODE_ENV=production npx pm2 start 'npx serve -s build -l 3001' --name 'folk-front'",
     "stop-server": "npx pm2 stop folk-front && npx pm2 delete folk-front",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "cross-env NODE_ENV=test react-scripts test",
+    "eject": "react-scripts eject",
+    "type-check": "tsc --noEmit",
+    "format": "npx prettier --write \"{__tests__,components,pages,styles,src}/**/*.{ts,tsx,js,jsx,json,css}\"",
+    "lint": "next lint && npx prettier --check \"{__tests__,components,pages,styles,src}/**/*.{ts,tsx,js,jsx,json,css}\" && npm run type-check"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +55,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@babel/plugin-transform-private-property-in-object": "^7.25.9"
+    "@babel/plugin-transform-private-property-in-object": "^7.25.9",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.9.5"
   }
 }

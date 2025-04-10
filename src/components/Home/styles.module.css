@@ -291,6 +291,7 @@
 .logo-container {
   position: relative;
   display: inline-block;
+  margin-top: 34px;
 }
 
 .home-image-logo {

@@ -1,111 +1,41 @@
-/** 3P Dependecies */
-import React, { useState, useEffect, useContext } from "react";
-
-/** Assets */
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../store";
+import { fetchTasks, completeTask as completeTaskThunk } from "../../store/slices/appSlice";
 import coinIcon from "../../assets/images/bitcoin.svg";
-
-/** Helpers */
-import { CoinContext } from "../../context/CoinContext";
-
-/** Styles */
 import styles from "./styles.module.css";
 
+export interface TaskItem {
+  id: string;
+  platform: string;
+  description: string;
+  coins: number;
+  icon: string;
+  link: string;
+  completed: boolean;
+}
 
-const Task = ({ telegramUserId }) => {
-  const telegramUserIdHeader = localStorage.getItem("telegramUserId");
-  const { addCoins } = useContext(CoinContext);
-  const [activeTab, setActiveTab] = useState("dailyTasks");
-  const [tasks, setTasks] = useState({
-    dailyTasks: [],
-    weeklyTasks: [],
-    monthlyTasks: [],
-  });
-  const [loading, setLoading] = useState(true);
-  const apiIp = process.env.REACT_APP_API_URL;
+const Task = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { telegramUserId } = useSelector((state: RootState) => state.user);
+  const { tasks, loading } = useSelector((state: RootState) => state.app);
 
-  const fetchTasks = async () => {
-    if (!telegramUserIdHeader) {
-      alert("Data Not Found");
-      return;
-    }
-    try {
-      console.log("Fetching tasks for telegramId:", telegramUserIdHeader);
-      const response = await fetch(`${apiIp}/api/tasks`, {
-        method: "GET",
-        headers: {
-          "telegram-id": telegramUserIdHeader,
-        },
-      });
-
-      const result = await response.json();
-
-      if (result.data.success) {
-        setTasks({
-          dailyTasks: result.data.dailyTasks || [],
-          weeklyTasks: result.data.weeklyTasks || [],
-          monthlyTasks: result.data.monthlyTasks || [],
-        });
-      } else {
-        console.error("API returned an error:", result.error);
-      }
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [activeTab, setActiveTab] = useState<"dailyTasks" | "weeklyTasks" | "monthlyTasks">("dailyTasks");
 
   useEffect(() => {
-    fetchTasks();
-  }, [telegramUserIdHeader]);
+    if (telegramUserId) {
+      dispatch(fetchTasks(telegramUserId));
+    }
+  }, [telegramUserId, dispatch]);
 
-  const switchTab = (tab) => {
+  const switchTab = (tab: "dailyTasks" | "weeklyTasks" | "monthlyTasks") => {
     setActiveTab(tab);
   };
 
-  const handleTaskClick = async (task, taskType) => {
+  const handleTaskClick = async (task: TaskItem, taskType: string) => {
     if (task.completed) return;
-
     window.open(task.link, "_blank");
-
-    setTimeout(async () => {
-      try {
-        const response = await fetch(`${apiIp}/api/completeTask`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "telegram-id": telegramUserIdHeader,
-          },
-          body: JSON.stringify({
-            taskId: task.id,
-            taskType,
-            points: task.coins,
-          }),
-        });
-
-        const data = await response.json();
-        console.log("data from completTask Api", data);
-        if (data.status) {
-          markTaskCompleted(task, taskType);
-          fetchTasks();
-          window.location.reload();
-        } else {
-          alert(data.error);
-        }
-      } catch (error) {
-        console.error("Error completing task:", error);
-      }
-    }, 1000);
-  };
-
-  const markTaskCompleted = (task, taskType) => {
-    setTasks((prevTasks) => ({
-      ...prevTasks,
-      [taskType]: prevTasks[taskType].map((t) =>
-        t.id === task.id ? { ...t, completed: true } : t
-      ),
-    }));
-    addCoins(task.coins);
+    await dispatch(completeTaskThunk({ telegramUserId, task, taskType }));
   };
 
   return (
@@ -115,17 +45,9 @@ const Task = ({ telegramUserId }) => {
           <button
             key={tab}
             className={`${styles['tab-button']} ${activeTab === tab ? "active" : ""}`}
-            onClick={() => switchTab(tab)}
+            onClick={() => switchTab(tab as "dailyTasks" | "weeklyTasks" | "monthlyTasks")}
           >
-            {tab
-              .replace(/([A-Z])/g, " $1")
-              .trim()
-              .charAt(0)
-              .toUpperCase() +
-              tab
-                .replace(/([A-Z])/g, " $1")
-                .trim()
-                .slice(1)}
+            {tab.replace(/([A-Z])/g, " $1").trim().replace(/^\w/, (c) => c.toUpperCase())}
           </button>
         ))}
       </div>
@@ -134,7 +56,7 @@ const Task = ({ telegramUserId }) => {
         {loading ? (
           <p className={styles["loading-text"]}>Loading tasks...</p>
         ) : tasks[activeTab]?.length > 0 ? (
-          tasks[activeTab].map((task) => (
+          tasks[activeTab].map((task: TaskItem) => (
             <div
               key={task.id}
               className={`task-card ${task.completed ? "disabled-card" : ""}`}
@@ -153,9 +75,8 @@ const Task = ({ telegramUserId }) => {
                       src={coinIcon}
                       alt="Coins"
                       className={styles["coin-icon-task"]}
-                    />{" "}
-                    {task.coins} coins{" "}
-                    {task.completed && "(Added to your account)"}
+                    />
+                    {task.coins} coins {task.completed && "(Added to your account)"}
                   </p>
                 </div>
               </div>

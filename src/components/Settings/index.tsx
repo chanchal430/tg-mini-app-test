@@ -20,15 +20,14 @@ const Settings = () => {
           <h4>Basic Settings</h4>
           <ul>
             <li>
-              <FaRegHandPointRight />
               <Link to={"/profile"}>
-                Profile Update <MdOutlineArrowForwardIos />
+                Profile Update
               </Link>
             </li>
             <li>
-              <FaRegHandPointRight />
+              {/* <FaRegHandPointRight /> */}
               <Link to={"/invite"}>
-                Invite <MdOutlineArrowForwardIos />
+                Invite 
               </Link>
             </li>
           </ul>

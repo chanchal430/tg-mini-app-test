@@ -6,6 +6,9 @@ import {
   TonConnectButton,
 } from "@tonconnect/ui-react";
 
+import { useSignal } from "@telegram-apps/sdk-react";
+import { initData } from "@telegram-apps/sdk-react";
+
 /** Assets */
 import logo from "../../assets/images/logo.png";
 import unionlogo from "../../assets/images/Union.svg";
@@ -21,74 +24,58 @@ import ReferralModal from "../common/modal/ReferralModal";
 /** Styles */
 import styles from "./styles.module.css";
 import DailyRewardModal from "../common/modal/DailyRewardModal";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchUserData, postTapPoints, setTelegramUserId } from "../../store/slices/userSlice";
+import { connectWallet, saveTelegramId } from "../../services/userService";
+import { FolksTapper } from "../Tapper";
 
 
 const Home = () => {
-  const apiIp = process.env.REACT_APP_API_URL;
-  console.log("apiIp === ", apiIp);
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    telegramUserId,
+    tapPoints: earnPerTap,
+    taskPoints,
+    totalPoints,
+    name,
+  } = useSelector((state: RootState) => state.user);
 
   const userFriendlyAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
 
   const [walletConnected, setWalletConnected] = useState(false);
   const [balance, setBalance] = useState(null);
-  const [earnPerTap, setEarnPerTap] = useState(0);
   const [gamePoints, setGamePoints] = useState(
     localStorage.getItem("gamePoints") || 0
   );
-  const [taskPoints, setTaskPoints] = useState(0);
-  const [walletInfo, setWalletInfo] = useState(null);
-  const [totalPoints, setTotalPoints] = useState(0);
   const [tapLimitReached, setTapLimitReached] = useState(false);
-  const [name, setName] = useState("");
   const [isPressed, setIsPressed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [walletMessage, setWalletMessage] = useState("");
   const [coins, setCoins] = useState([]);
-  const [telegramUserId, setTelegramUserId] = useState(null);
-  const effectRan = useRef(false);
   const [isTelegramSaved, setIsTelegramSaved] = useState(true);
   const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
   const [showDailyReward, setShowDailyReward] = useState(false);
   const [currentDay, setCurrentDay] = useState(1);
 
-useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready();
-      const user = window.Telegram.WebApp.initDataUnsafe.user;
-      if (user) {
-        const telegramUserId = String(user.id);
-        setTelegramUserId(telegramUserId);
-        localStorage.setItem("telegramUserId", telegramUserId);
-        fetch(`${apiIp}/api/save-telegram-id`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            telegramUserId: telegramUserId,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.message === "Telegram user ID successfully saved") {
-              setIsTelegramSaved(true);
-            } else if (
-              data.message === "User With this Telegram ID already exist"
-            ) {
-              setIsTelegramSaved(true);
-            }
-          })
-          .catch((err) => console.error("Error sending Telegram ID:", err));
-      }
+  const telegramUser = useSignal(initData.user);
+
+  useEffect(() => {
+    if (telegramUser?.id) {
+      const telegramId = String(telegramUser.id);
+      dispatch(setTelegramUserId(telegramId));
+      localStorage.setItem("telegramUserId", telegramId);
+      saveTelegramId(telegramId)
+        .then(() => setIsTelegramSaved(true))
+        .catch((err) => console.error("Error sending Telegram ID:", err));
     }
-  }, []);
+  }, [telegramUser?.id]);
 
   useEffect(() => {
     const lastClaim = localStorage.getItem("lastClaimedAt");
     const streak = parseInt(localStorage.getItem("rewardStreak") || "1");
-
     if (!lastClaim || Date.now() - Number(lastClaim) > 24 * 60 * 60 * 1000) {
       setCurrentDay(streak);
       setShowDailyReward(true);
@@ -97,24 +84,12 @@ useEffect(() => {
 
   const sendWalletAddress = async () => {
     try {
-      const response = await fetch(`${apiIp}/api/connectWallet`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ walletAddress: userFriendlyAddress }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
+      const data = await connectWallet(userFriendlyAddress);
+      if (data.success) {
         setWalletConnected(true);
         localStorage.setItem("walletAddress", userFriendlyAddress);
       } else {
-        console.error(
-          "Wallet connection failed:",
-          data.error || "Unknown error"
-        );
+        console.error("Wallet connection failed:", data.error);
       }
     } catch (error) {
       console.error("Error connecting wallet:", error);
@@ -122,134 +97,59 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (userFriendlyAddress) {
-      sendWalletAddress();
-    }
+    if (userFriendlyAddress) sendWalletAddress();
   }, [userFriendlyAddress]);
 
   useEffect(() => {
     if (!isTelegramSaved || !telegramUserId) return;
-
-    const getUserData = async () => {
-      try {
-        const response = await fetch(`${apiIp}/api/user`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "telegram-id": telegramUserId,
-          },
-        });
-
-        if (response.status) {
-          const result = await response.json();
-          setEarnPerTap(result.data.tapPoints);
-          setTaskPoints(result.data.taskPoints);
-          setTotalPoints(result.data.totalPoints);
-
-          if (result.data.firstName?.trim() || result.data.lastName?.trim()) {
-            setName(`${result.data.firstName} ${result.data.lastName}`);
-          } else {
-            setName("Hello User");
-          }
-        } else {
-          console.error("Failed to fetch user data");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    getUserData();
-  }, [telegramUserId, isTelegramSaved, Date.now()]);
+    dispatch(fetchUserData(telegramUserId));
+  }, [telegramUserId, isTelegramSaved]);
 
   const removeAddress = () => {
-    setWalletInfo(null);
     setWalletConnected(false);
     localStorage.removeItem("walletConnected");
     localStorage.removeItem("walletAddress");
-    setEarnPerTap(0);
-    setTaskPoints(0);
-    setTotalPoints(0);
   };
 
   useEffect(() => {
     const unsubscribe = tonConnectUI.onStatusChange((walletInfo) => {
-      if (walletInfo?.account) {
-        setWalletInfo(walletInfo);
-      } else {
-        removeAddress();
-      }
+      if (!walletInfo?.account) removeAddress();
     });
     return () => unsubscribe();
   }, [tonConnectUI]);
 
   const handleImagePress = async () => {
-    if (!isTelegramSaved) {
+    if (!isTelegramSaved || !telegramUserId) {
       console.log("Waiting for Telegram API to complete...");
       return;
     }
+
     setIsPressed(true);
-    const telegramUserId = localStorage.getItem("telegramUserId");
 
     try {
-      console.log("Sending tap points update request...");
-      const response = await fetch(`${apiIp}/api/updateTapPoints`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "telegram-id": telegramUserId,
-        },
-        body: JSON.stringify({ points: 2 }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || data.success === false) {
-        setModalMessage(data.error || "Failed to update tap points");
-        setModalOpen(true);
-        setTimeout(() => setModalOpen(false), 2000);
-
-        if (data.error.includes("You have reached the daily limit")) {
-          setTapLimitReached(true);
-        }
-        return;
-      }
-
-      setEarnPerTap(data.updatedTapPoints || earnPerTap + 2);
-      setTotalPoints(data.updatedTotalPoints || totalPoints + 2);
-    } catch (error) {
-      console.error("Error updating tap points:", error);
-      setModalMessage("An error occurred while updating tap points.");
+      const result = await dispatch(postTapPoints({ telegramUserId, points: 2 })).unwrap();
+    } catch (error: any) {
+      setModalMessage(error.message || "Failed to update tap points");
       setModalOpen(true);
       setTimeout(() => setModalOpen(false), 2000);
+      if (error.message.includes("daily limit")) setTapLimitReached(true);
+      return;
     }
 
-    if (navigator.vibrate) {
-      navigator.vibrate(200);
-    }
-
+    if (navigator.vibrate) navigator.vibrate(200);
     const newCoin = { id: Date.now() };
     setCoins((prevCoins) => [...prevCoins, newCoin]);
-
     setTimeout(() => {
-      setCoins((prevCoins) =>
-        prevCoins.filter((coin) => coin.id !== newCoin.id)
-      );
+      setCoins((prevCoins) => prevCoins.filter((coin) => coin.id !== newCoin.id));
     }, 1000);
-
-    setTimeout(() => {
-      setIsPressed(false);
-    }, 150);
+    setTimeout(() => setIsPressed(false), 150);
   };
 
   const handleDailyRewardClaim = () => {
-    // Reward logic here (e.g., add points)
-
     localStorage.setItem("lastClaimedAt", Date.now().toString());
     let newStreak = currentDay + 1;
     if (newStreak > 12) newStreak = 1;
     localStorage.setItem("rewardStreak", newStreak.toString());
-
     setShowDailyReward(false);
   };
 
@@ -317,11 +217,19 @@ useEffect(() => {
           className={`${styles['logo-container']} ${tapLimitReached ? "disabled" : ""}`}
           onClick={tapLimitReached ? null : handleImagePress}
         >
-          <img
+          {/* <img
             src={logo}
             className={`${styles['home-image-logo']} ${isPressed ? "pressed" : ""}`}
             alt="Logo"
-          />
+          /> */}
+             <FolksTapper
+                    canIClickPlease={true}
+                    sleep={false}
+                    funMode={false}
+                    clickValue={1}
+                    cooldown={0}
+                    handleClick={() => {}}
+                />
           {!tapLimitReached &&
             coins.map((coin) => (
               <img
@@ -363,3 +271,27 @@ useEffect(() => {
 };
 
 export default Home;
+
+
+
+
+// useEffect(() => {
+//   const checkTelegramStatus = async () => {
+//     const telegramStatus = await isTMA();
+//     setInTelegram(telegramStatus);
+//   };
+//   checkTelegramStatus();
+// }, []);
+
+// const saveUserDetails = async () => {
+//   try {
+//     if (isUserSaved) return;
+//     console.log("Saving user data in the background...");
+//     await API.post("/user", JSON.stringify({ uid: user.id }));
+//     setIsUserSaved(true);
+//     console.log("User data saved successfully.");
+//   } catch (error) {
+//     console.error("Error saving user details:", error);
+//   }
+// };
+

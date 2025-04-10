@@ -55,7 +55,7 @@ const Game = () => {
   }, [currentQuestionIndex, gameFinished]);
 
 useEffect(() => {
-  localStorage.setItem("gamePoints", gamePoints);
+  localStorage.setItem("gamePoints", gamePoints.toString());
 }, [gamePoints]);
 
 const handleAnswerSelection = (answer) => {
@@ -67,7 +67,7 @@ const handleAnswerSelection = (answer) => {
 
   setGamePoints((prevPoints) => {
     const newPoints = prevPoints + earnedCoins;
-    localStorage.setItem("gamePoints", newPoints); 
+    localStorage.setItem("gamePoints", newPoints.toString()); 
     return newPoints;
   });
 
@@ -97,7 +97,7 @@ const handleAnswerSelection = (answer) => {
         <div className={styles["timer"]}>
           <div className={styles["timer-circle"]}>{timer}</div>
         </div>
-        <IoCloseCircleOutline size={30} onClick={() => navigate("/")} />
+        {/* <IoCloseCircleOutline size={30} onClick={() => navigate("/")} /> */}
       </div>
 
       {gameFinished ? (

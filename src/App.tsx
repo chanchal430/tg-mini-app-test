@@ -7,7 +7,7 @@ import {
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 /** Helpers */
-import { CoinProvider } from "./context/CoinContext";
+// import { CoinProvider } from "./context/CoinContext";
 
 /** Styles */
 import "./App.css";
@@ -20,28 +20,31 @@ import TaskMain from "./components/TaskMain";
 import Navbar from "./components/Navbar";
 import Settings from "./components/Settings";
 import ProfileUpdate from "./components/ProfileUpdate";
+import { Root } from "./core/Root";
 
 function App() {
   return (
     <TonConnectUIProvider manifestUrl="https://tg-mini-app-nine-ruddy.vercel.app/tonconnect-manifest.json">
-      <CoinProvider>
-        <Router>
-          <Routes>
-        
-            <Route path="/*" element={<ProtectedLayout />} />
-          </Routes>
-        </Router>
-      </CoinProvider>
-  </TonConnectUIProvider>
+      <Root>
+        {/* <CoinProvider> */}
+          <Router>
+            <Routes>
+
+              <Route path="/*" element={<ProtectedLayout />} />
+            </Routes>
+          </Router>
+        {/* </CoinProvider> */}
+      </Root>
+    </TonConnectUIProvider>
   );
 }
 
 
 const ProtectedLayout = () => {
- 
+
 
   return (
-  
+
     <div className="app-container">
       <div className="main-content">
         <Routes>

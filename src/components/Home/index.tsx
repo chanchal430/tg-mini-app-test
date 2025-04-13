@@ -26,7 +26,7 @@ import styles from "./styles.module.css";
 import DailyRewardModal from "../common/modal/DailyRewardModal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { fetchUserData, postTapPoints, setTelegramUserId } from "../../store/slices/userSlice";
+import { fetchUserData, incrementTapPoints, postTapPoints, setTelegramUserId } from "../../store/slices/userSlice";
 import { connectWallet, saveTelegramId } from "../../services/userService";
 import { FolksTapper } from "../Tapper";
 
@@ -153,6 +153,34 @@ const Home = () => {
     setShowDailyReward(false);
   };
 
+  const handleFolksTap = async () => {
+    if (!isTelegramSaved || !telegramUserId || tapLimitReached) return;
+  
+    dispatch(incrementTapPoints());
+    setIsPressed(true);
+  
+    try {
+      await dispatch(postTapPoints({ telegramUserId, points: 1 })).unwrap();
+    } catch (error: any) {
+      setModalMessage(error.message || "Failed to update tap points");
+      setModalOpen(true);
+      setTimeout(() => setModalOpen(false), 2000);
+  
+      if (error.message.includes("daily limit")) setTapLimitReached(true);
+      return;
+    }
+  
+    if (navigator.vibrate) navigator.vibrate(200);
+  
+    const newCoin = { id: Date.now() };
+    setCoins((prevCoins) => [...prevCoins, newCoin]);
+    setTimeout(() => {
+      setCoins((prevCoins) => prevCoins.filter((coin) => coin.id !== newCoin.id));
+    }, 1000);
+    setTimeout(() => setIsPressed(false), 150);
+  };
+  
+
   return (
     <div className={styles["home-container"]}>
       {/* <h3 className={styles["home-heading"]}>Folks Finance</h3>  */}
@@ -222,14 +250,14 @@ const Home = () => {
             className={`${styles['home-image-logo']} ${isPressed ? "pressed" : ""}`}
             alt="Logo"
           /> */}
-             <FolksTapper
-                    canIClickPlease={true}
-                    sleep={false}
-                    funMode={false}
-                    clickValue={1}
-                    cooldown={0}
-                    handleClick={() => {}}
-                />
+            <FolksTapper
+  canIClickPlease={!tapLimitReached}
+  sleep={false}
+  funMode={false}
+  clickValue={1}
+  cooldown={0}
+  handleClick={handleFolksTap}
+/>
           {!tapLimitReached &&
             coins.map((coin) => (
               <img
@@ -271,27 +299,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-// useEffect(() => {
-//   const checkTelegramStatus = async () => {
-//     const telegramStatus = await isTMA();
-//     setInTelegram(telegramStatus);
-//   };
-//   checkTelegramStatus();
-// }, []);
-
-// const saveUserDetails = async () => {
-//   try {
-//     if (isUserSaved) return;
-//     console.log("Saving user data in the background...");
-//     await API.post("/user", JSON.stringify({ uid: user.id }));
-//     setIsUserSaved(true);
-//     console.log("User data saved successfully.");
-//   } catch (error) {
-//     console.error("Error saving user details:", error);
-//   }
-// };
-

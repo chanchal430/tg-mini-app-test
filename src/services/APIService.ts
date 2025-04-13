@@ -2,7 +2,7 @@ import { Axios } from "axios";
 
 
 const API = new Axios({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "Content-Type": "application/json",
   }

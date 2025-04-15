@@ -287,13 +287,13 @@ const Home = () => {
         />
       )} */}
 
-      <ReferralModal isOpen={isReferralModalOpen} onClose={() => setIsReferralModalOpen(false)} />
+      {/* <ReferralModal isOpen={isReferralModalOpen} onClose={() => setIsReferralModalOpen(false)} />
       <DailyRewardModal
         isOpen={showDailyReward}
         onClose={() => setShowDailyReward(false)}
         onClaim={handleDailyRewardClaim}
         currentDay={currentDay}
-      />
+      /> */}
     </div>
   );
 };

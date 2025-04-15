@@ -1,9 +1,9 @@
 .game-container {
-  width: 100%;
+  /* width: 100%; */
   color: white;
   text-align: center;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   flex-direction: column;
   padding-top: 20px;
   padding-bottom: 160px;

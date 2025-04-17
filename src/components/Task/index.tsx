@@ -38,6 +38,52 @@ const Task = () => {
     await dispatch(completeTaskThunk({ telegramUserId, task, taskType }));
   };
 
+  const dummyTasks: Record<"dailyTasks" | "weeklyTasks" | "monthlyTasks", TaskItem[]> = {
+    dailyTasks: [
+      {
+        id: "1",
+        platform: "Twitter",
+        description: "Follow @folksfinance on Twitter",
+        coins: 10,
+        icon: "https://cdn-icons-png.flaticon.com/512/733/733579.png",
+        link: "https://twitter.com/folksfinance",
+        completed: false,
+      },
+      {
+        id: "2",
+        platform: "Discord",
+        description: "Join our Discord server",
+        coins: 15,
+        icon: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png",
+        link: "https://discord.gg/folksfinance",
+        completed: false,
+      },
+    ],
+    weeklyTasks: [
+      {
+        id: "3",
+        platform: "Telegram",
+        description: "Join the official Telegram group",
+        coins: 20,
+        icon: "https://cdn-icons-png.flaticon.com/512/2111/2111646.png",
+        link: "https://t.me/folksfinance",
+        completed: false,
+      },
+    ],
+    monthlyTasks: [
+      {
+        id: "4",
+        platform: "Medium",
+        description: "Read and clap on our latest blog",
+        coins: 50,
+        icon: "https://cdn-icons-png.flaticon.com/512/5968/5968885.png",
+        link: "https://medium.com/@folksfinance",
+        completed: false,
+      },
+    ],
+  };
+
+  
   return (
     <div className={styles["task-container"]}>
       <div className={styles["task-tabs"]}>
@@ -55,8 +101,8 @@ const Task = () => {
       <div className={styles["task-list"]}>
         {loading ? (
           <p className={styles["loading-text"]}>Loading tasks...</p>
-        ) : tasks[activeTab]?.length > 0 ? (
-          tasks[activeTab].map((task: TaskItem) => (
+        ) : (tasks[activeTab]?.length || dummyTasks[activeTab].length) > 0 ? (
+          (tasks[activeTab]?.length ? tasks[activeTab] : dummyTasks[activeTab]).map((task: TaskItem) => (
             <div
               key={task.id}
               className={`task-card ${task.completed ? "disabled-card" : ""}`}

@@ -88,7 +88,6 @@ const handleAnswerSelection = (answer) => {
 
   return (
     <div className={styles["game-container"]}>
-      <span className={styles["game-title"]}>Folks Finance</span>
       <div className={styles["coin-counter"]}>
         <div className={styles["timer-inner-coin"]}>
           <span className={styles["coin-count"]}>{gamePoints}</span>

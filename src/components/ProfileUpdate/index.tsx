@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 const ProfileUpdate = () => {
-  const apiIp=process.env.REACT_APP_API_URL
+  const apiIp = process.env.REACT_APP_API_URL
   const navigate = useNavigate()
   const telegramUserId = localStorage.getItem("telegramUserId");
   const [form, setForm] = useState({
-
     firstName: "",
     lastName: "",
     email: "",

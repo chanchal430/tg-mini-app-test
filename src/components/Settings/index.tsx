@@ -13,7 +13,6 @@ import styles from "./styles.module.css";
 const Settings = () => {
   return (
     <div className={styles["setting-main-container"]}>
-      <span className={styles["setting-title"]}>Folks Finance</span>
       <div className={styles["setting-container"]}>
         <img src={logo} className={styles["loginImage"]} alt="Logo" />
         <div className={styles["basic-setting-div"]}>

@@ -1,8 +1,7 @@
-/** 3P Dependecies */
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaUserEdit, FaUserFriends } from "react-icons/fa";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import { FaRegHandPointRight } from "react-icons/fa";
 
 /** Assets */
 import logo from "../../assets/images/logo.png";
@@ -12,25 +11,36 @@ import styles from "./styles.module.css";
 
 const Settings = () => {
   return (
-    <div className={styles["setting-main-container"]}>
-      <div className={styles["setting-container"]}>
-        <img src={logo} className={styles["loginImage"]} alt="Logo" />
-        <div className={styles["basic-setting-div"]}>
-          <h4>Basic Settings</h4>
-          <ul>
-            <li>
-              <Link to={"/profile"}>
-                Profile Update
-              </Link>
-            </li>
-            <li>
-              {/* <FaRegHandPointRight /> */}
-              <Link to={"/invite"}>
-                Invite 
-              </Link>
-            </li>
-          </ul>
+    <div className={styles.container}>
+      <div className={styles.profileSection}>
+        <img src={logo} alt="Avatar" className={styles.avatar} />
+        <h2 className={styles.username}>Shiri 🐾</h2>
+        <div className={styles.levelRow}>
+          <span>3 lvl</span>
+          <div className={styles.progressBar}>
+            <div className={styles.progressFill}></div>
+          </div>
+          <span>4 lvl</span>
         </div>
+        <p className={styles.points}>💰 842 / 70k</p>
+      </div>
+
+      <div className={styles.card}>
+        <Link to="/wallet" className={styles.cardItem}>
+          <div>
+            <p className={styles.cardTitle}>Connect Wallet</p>
+            <p className={styles.cardSubtitle}>Connect your TON wallet</p>
+          </div>
+          {/* <MdOutlineArrowForwardIos /> */}
+        </Link>
+
+        <Link to="/settings" className={styles.cardItem}>
+          <div>
+            <p className={styles.cardTitle}>Settings</p>
+            <p className={styles.cardSubtitle}>Language, music, sounds and vibration</p>
+          </div>
+          {/* <MdOutlineArrowForwardIos /> */}
+        </Link>
       </div>
     </div>
   );

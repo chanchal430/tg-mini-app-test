@@ -1,61 +1,89 @@
-.setting-main-container {
-  padding-top: 20px;
+ .container {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  padding: 24px 16px;
+
+}
+
+.profileSection {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-bottom: 50px;
+  margin-bottom: 30px;
 }
-.setting-title {
-  font-weight: 400;
-  font-size: 17px;
-  color: #fff;
-  padding-bottom: 20px;
+
+.avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00f0ff, #7f00ff);
+  padding: 4px;
 }
-.setting-container {
+
+.username {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.levelRow {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-top: 20px;
-  border-top: 2px solid #3669bb;
-  border-radius: 50px;
+  gap: 12px;
+  margin-top: 8px;
   width: 100%;
+  justify-content: center;
 }
 
-.basic-setting-div {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  padding-bottom: 50px;
+.progressBar {
+  width: 120px;
+  height: 6px;
+  background-color: #333;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.basic-setting-div h4 {
-  font-size: 26px;
-  margin-bottom: 40px;
-  margin-top: 40px;
+.progressFill {
+  width: 40%;
+  height: 100%;
+  background-color: #00f0ff;
 }
 
-.basic-setting-div ul {
+.points {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.card {
+  background-color: #1a1a1a;
+  border-radius: 18px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  font-size: 18px;
 }
 
-.basic-setting-div ul li {
-  cursor: pointer;
-  list-style-type: none;
-display: flex;
-gap: 15px;
-}
-
-.basic-setting-div ul li a {
-  color: #fff;
-  text-decoration: none;
+.cardItem {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   align-items: center;
+  text-decoration: none;
+  color: white;
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
 }
 
+.cardItem:last-child {
+  border-bottom: none;
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.cardSubtitle {
+  font-size: 12px;
+  color: #888;
+}

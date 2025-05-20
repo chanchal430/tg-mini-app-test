@@ -44,6 +44,7 @@ function RootInner({ children }: PropsWithChildren) {
 
     // Set the user locale.
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         initDataUser;
         hapticFeedback.isSupported();
     }, [initDataUser]);

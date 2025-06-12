@@ -186,14 +186,14 @@ const Home = () => {
       {/* <h3 className={styles["home-heading"]}>Folks Finance</h3>  */}
       <div className={styles["home-header"]}>
         <div className={styles["profile-div"]}>
-          <img src={unionlogo} alt="Union Logo" />
+          <img src={folkImage} alt="Union Logo" />
 
           <h5>{name && name !== "" ? name : "Hello User"}</h5>
         </div>
-        <div className={styles["folkImage-div"]}>
+        {/* <div className={styles["folkImage-div"]}>
           <img src={folkImage} alt="Folk Logo" />
           <p>About Folk's</p>
-        </div>
+        </div> */}
       </div>
 
       <div className={styles["home-main-container"]}>

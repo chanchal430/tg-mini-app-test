@@ -155,23 +155,23 @@ const Home = () => {
 
   const handleFolksTap = async () => {
     if (!isTelegramSaved || !telegramUserId || tapLimitReached) return;
-  
+
     dispatch(incrementTapPoints());
     setIsPressed(true);
-  
+
     try {
       await dispatch(postTapPoints({ telegramUserId, points: 1 })).unwrap();
     } catch (error: any) {
       setModalMessage(error.message || "Failed to update tap points");
       setModalOpen(true);
       setTimeout(() => setModalOpen(false), 2000);
-  
+
       if (error.message.includes("daily limit")) setTapLimitReached(true);
       return;
     }
-  
+
     if (navigator.vibrate) navigator.vibrate(200);
-  
+
     const newCoin = { id: Date.now() };
     setCoins((prevCoins) => [...prevCoins, newCoin]);
     setTimeout(() => {
@@ -179,7 +179,7 @@ const Home = () => {
     }, 1000);
     setTimeout(() => setIsPressed(false), 150);
   };
-  
+
 
   return (
     <div className={styles["home-container"]}>
@@ -243,21 +243,21 @@ const Home = () => {
 
         <div
           className={`${styles['logo-container']} ${tapLimitReached ? "disabled" : ""}`}
-          onClick={tapLimitReached ? null : handleImagePress}
+          // onClick={tapLimitReached ? null : handleImagePress}
         >
           {/* <img
             src={logo}
             className={`${styles['home-image-logo']} ${isPressed ? "pressed" : ""}`}
             alt="Logo"
           /> */}
-            <FolksTapper
-  canIClickPlease={!tapLimitReached}
-  sleep={false}
-  funMode={false}
-  clickValue={1}
-  cooldown={0}
-  handleClick={handleFolksTap}
-/>
+          <FolksTapper
+            canIClickPlease={!tapLimitReached}
+            sleep={false}
+            funMode={false}
+            clickValue={1}
+            cooldown={0}
+            handleClick={handleFolksTap}
+          />
           {!tapLimitReached &&
             coins.map((coin) => (
               <img

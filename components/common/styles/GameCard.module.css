@@ -1,0 +1,53 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    padding: 6px;
+}
+
+.childCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.flag {
+    width: 30px;
+    height: 30px;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+
+.rowItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.eventRewardDetails {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #212121;
+}
+
+
+/* .eventRewardDetails .rowItem:nth-child(2) {
+    margin-left: 10px;
+} */

@@ -2,10 +2,10 @@ import { Axios } from "axios";
 
 
 const API = new Axios({
-  baseURL: process.env.REACT_APP_API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  }
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:9000',
+  // headers: {
+  //   "Content-Type": "application/json",
+  // }
 })
 
 export type APIResponse<T> = {

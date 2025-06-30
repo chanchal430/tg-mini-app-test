@@ -12,13 +12,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
 
         <Provider store={store}>
-            <PrivyProvider appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}>
+            {/* <PrivyProvider appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}> */}
                 <SoundVibrationProvider>
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
                 </SoundVibrationProvider>
-            </PrivyProvider>
+            {/* </PrivyProvider> */}
         </Provider>
     );
 }

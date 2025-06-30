@@ -5,8 +5,6 @@ import styles from '../styles/login.module.css'
 
 export default function LoginPage() {
   const { login } = useLogin();
-  // const router = useRouter();
-  // const  { ready, authenticated } = usePrivy();
 
   return (
     <>

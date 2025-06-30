@@ -18,10 +18,8 @@ export const login = createAsyncThunk(
   async ({ raw }: { raw: any }, thunkAPI) => {
     try {
       const res = await telegramLogin(raw);
-        console.log('raw', raw)
-      console.log('Res', res)
-      localStorage.setItem('token', res.data.token);
-      return { token: res.data.token, user: res.data.user };
+      localStorage.setItem('accessToken', res.data.accessToken);
+      return { token: res.data.accessToken, user: res.data.user };
     } catch (err) {
       return thunkAPI.rejectWithValue('Login failed');
     }
@@ -36,7 +34,14 @@ const authSlice = createSlice({
       state.token = '';
       state.user = null;
       state.status = 'idle';
-      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+    },
+    setUser: (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token || '';
+      if (action.payload.token) {
+        localStorage.setItem('accessToken', action.payload.token);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -55,5 +60,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setUser } = authSlice.actions;
 export default authSlice.reducer;
+

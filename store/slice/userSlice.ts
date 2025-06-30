@@ -1,9 +1,8 @@
-import { User } from "@privy-io/react-auth";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   accessToken: string | null;
-  user: User | null;
+  user: [] | null;
 }
 
 const initialState: UserState = {
@@ -15,9 +14,12 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<{ accessToken: string, user : User }>) {
+    setUser(state, action: PayloadAction<{ accessToken: string, user : [] }>) {
       state.accessToken = action.payload.accessToken;
       state.user = action.payload.user;
+      if (action.payload.accessToken) {
+        localStorage.setItem("accessToken", action.payload.accessToken);
+      }
     },
     clearUser(state) {
       state.accessToken = null;

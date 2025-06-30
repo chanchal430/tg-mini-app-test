@@ -1,15 +1,6 @@
-import API from './apiService';
-
-// export const telegramLogin = (initDataRaw: string) => {
-//   return API.post('/auth/telegram', {
-//     headers: {
-//       Authorization: `tma ${initDataRaw}`,
-//     },
-//   });
-// };
-
-// import API from './apiService';
+import API from "./apiService";
 
 export const telegramLogin = (initDataRaw: string) => {
-  return API.post('/auth/telegram', { initDataRaw });
+  console.log("initDataRaw SENT TO BACKEND:", initDataRaw);
+  return API.post("/auth/login", { initData: initDataRaw });
 };

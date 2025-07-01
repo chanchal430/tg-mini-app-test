@@ -1,3 +1,4 @@
+import { useTheme } from '@/theme/ThemeContext';
 import styles from './EnergyBar.module.css';
 
 type Props = {
@@ -6,11 +7,15 @@ type Props = {
 };
 
 const EnergyBar = ({ current, max }: Props) => {
+  const { colors } = useTheme();
+  
   const percent = Math.min((current / max) * 100, 100);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.barBackground}>
+  <div className={styles.wrapper}>
+      <div className={styles.barBackground} style={{
+        backgroundColor: colors.primary.DEFAULT,
+      }}>
         <div
           className={styles.barFill}
           style={{ width: `${percent}%` }}

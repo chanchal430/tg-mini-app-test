@@ -10,7 +10,6 @@ import { FolksTapper } from '@/components/Tapper'
 import EnergyBar from '@/components/Home/EnergyBar'
 import SnackBar from '@/components/common/SnackBar'
 import BottomBar from '@/components/Bottombar'
-import { tap } from "@/services/gameService";
 
 import styles from '@/styles/Home.module.css'
 import ReferralModal from '@/components/common/modal/ReferralModal'
@@ -19,24 +18,34 @@ import { doTap } from '@/store/slice/gameSlice'
 import { useTheme } from '@/theme/ThemeContext'
 
 export default function Home() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const { colors } = useTheme()
 
-  const { colors } = useTheme();
+  // 1) Grab the user object from the correct slice
+  const user = useSelector((s: RootState) => s.user.user)
+  // 2) Grab the daily-checkin state
+  const checkIn = useSelector((s: RootState) => s.checkIn)
 
-  // user info from Redux
-  const user = useSelector((s: RootState) => s.auth.user)
-  const [energy, setEnergy] = useState(500);
-  const checkIn = useSelector((state: RootState) => state.checkIn);
-  const [points, setPoints] = useState(user?.points || 0);
-  const [referralOpen, setReferralOpen] = useState(true);
+  // Energy always local:
+  const [energy, setEnergy] = useState(500)
+  // Points: derive from Redux user, keep synced
+  const [points, setPoints] = useState(user?.points || 0)
 
-  // confetti + snack for check-in
   const [showConfetti, setShowConfetti] = useState(false)
   const [snack, setSnack] = useState({ open: false, msg: '' })
 
-  // daily check-in modal logic (if you still need it)
+  // Separate modals
+  const [shareOpen, setShareOpen] = useState(true)
   const [rewardOpen, setRewardOpen] = useState(false)
 
+  // Sync points whenever user.points changes
+  useEffect(() => {
+    if (user?.points != null) {
+      setPoints(user.points)
+    }
+  }, [user?.points])
+
+  // Open daily-reward if not claimed today
   useEffect(() => {
     const today = getTodayKey()
     if (localStorage.getItem('dailyCheckInDate') !== today) {
@@ -44,30 +53,26 @@ export default function Home() {
     }
   }, [])
 
-
-
-  // Daily reset at midnight
+  // Reset energy at midnight
   useEffect(() => {
     const msUntilMidnight =
       new Date().setHours(24, 0, 0, 0) - Date.now()
     const timer = setTimeout(() => setEnergy(500), msUntilMidnight)
     return () => clearTimeout(timer)
-  }, [getTodayKey()]);
-
+  }, [])
 
   const handleTap = async () => {
-    if (energy <= 0) return;
-
+    if (energy <= 0) return
     try {
-      const { newBalance } = await dispatch(doTap(1) as any)
-      setPoints(newBalance);
-      setEnergy((e) => e - 1);
-    } catch (err) {
-      console.error("Tap API failed", err);
-      setSnack({ open: true, msg: "Tap failed, try again!" });
+      const action = await dispatch(doTap(1) as any)
+      const { newBalance } = action.payload
+      setPoints(newBalance)
+      setEnergy(e => e - 1)
+    } catch {
+      setSnack({ open: true, msg: "Tap failed, try again!" })
     }
-  };
-  // Claim today's bonus reward (if you have one)
+  }
+
   const handleClaimDaily = async () => {
     try {
       const result = await dispatch(claimCheckIn() as any)
@@ -86,48 +91,51 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}
-    style={{ 
-      backgroundColor: colors.base[100].DEFAULT,
-      color: colors.base.content.DEFAULT
-    }}
+    <div
+      className={styles.container}
+      style={{
+        backgroundColor: colors.base[100].DEFAULT,
+        color: colors.base.content.DEFAULT,
+      }}
     >
       {/* Top bar */}
       <div className={styles.topBar}>
-        <h2 className={styles.welcome} 
-          style={{
-            color: colors.base.content.DEFAULT
-          }}
-        >
-          Welcome, {user?.username || 'Guest'}
+        <h2 className={styles.welcome}>
+          Welcome, {user?.first_name || user?.username || 'Guest'}!
         </h2>
-        <button className={styles.aboutBtn} onClick={() => {/* open info modal */ }}>
+        <button
+          className={styles.aboutBtn}
+          onClick={() => window.open('https://folks.finance', '_blank')}
+        >
           About Folks
         </button>
       </div>
 
+      {/* Referral (Share) Modal */}
+      <ReferralModal
+        isOpen={shareOpen}
+        onClose={() => setShareOpen(false)}
+        referralCode={user?.referral_code || ''}
+      />
 
-      {/* Center tapper card */}
+      {/* Tapper */}
       <div className={styles.tapperCard}>
         <FolksTapper
           canIClickPlease={energy > 0}
           clickValue={1}
           handleClick={handleTap}
         />
-        {/* <div className={styles.tapCounter}>
-          Points this session: <strong>{points}</strong>
-        </div> */}
       </div>
 
-      {/* Energy bar */}
+      {/* Energy & Points */}
       <div className={styles.energyContainer}>
         <EnergyBar current={energy} max={500} />
         <div className={styles.energyLabel}>
-          Energy remaining: {energy}/500 taps
+           Points: {points}
         </div>
       </div>
 
-      {/* Optional confetti + snack */}
+      {/* Confetti & Snack */}
       {showConfetti && <Confetti />}
       <SnackBar
         open={snack.open}
@@ -139,32 +147,13 @@ export default function Home() {
       {/* Bottom nav */}
       <BottomBar />
 
-      {/* Daily-reward modal (if you still want it) */}
-      {rewardOpen && (
-        <div className={styles.dailyModalBackdrop}>
-
-          <ReferralModal
-            isOpen={referralOpen}
-            onClose={() => setReferralOpen(false)}
-            referralCode={''}
-          />
-          {/* Daily Reward Modal: Use real claim logic */}
-          {showConfetti && <Confetti />}
-          <DailyRewardModal
-            isOpen={rewardOpen}
-            onClose={() => setRewardOpen(false)}
-            onClaim={handleClaimDaily}
-            currentDay={checkIn.streak}
-          />
-
-          <SnackBar
-            open={snack.open}
-            message={snack.msg}
-            onClose={() => setSnack({ open: false, msg: '' })}
-            duration={3500}
-          />
-        </div>
-      )}
+      {/* Daily Reward Modal */}
+      <DailyRewardModal
+        isOpen={rewardOpen}
+        onClose={() => setRewardOpen(false)}
+        onClaim={handleClaimDaily}
+        currentDay={checkIn.streak}
+      />
     </div>
   )
 }

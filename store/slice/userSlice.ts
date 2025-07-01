@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   accessToken: string | null;
-  user: [] | null;
+  user: any | null;
 }
 
 const initialState: UserState = {

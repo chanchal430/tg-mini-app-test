@@ -92,7 +92,7 @@ const TasksScreen = () => {
     <>
       <div className={styles.screen}>
         <div className={styles.header}>
-          <Title level={"2"}>Tasks</Title>
+          {/* <Title level={"2"}>Tasks</Title> */}
         </div>
 
         {/* 5. Add the Tab UI */}

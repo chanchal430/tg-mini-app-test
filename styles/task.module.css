@@ -1,31 +1,31 @@
 .screen {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin-bottom: 50px;
 }
 
 .tabContainer {
-    display: flex;
-    overflow-x: scroll;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  display: flex;
+  overflow-x: scroll;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .tabContainer::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .totalPointSection {
-    align-self: center;
+  align-self: center;
 }
 
-.imageContainer{
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #3F51B5;
+.imageContainer {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #3f51b5;
 }
 
 .tabs {
@@ -55,30 +55,30 @@
 }
 
 .activeTab {
-    color: #fff;
-    background-color: #212121;
-    border-radius: 14px;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 14px;
+  color: #fff;
+  background-color: #212121;
+  border-radius: 14px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 14px;
 }
 
 .taskHeader {
-    margin-top: 10px;
-    margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .taskList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .snackbar {
-    position: fixed;
-    z-index: 100;
-    width: 80%;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+  position: fixed;
+  z-index: 100;
+  width: 80%;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }

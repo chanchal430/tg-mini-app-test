@@ -1,8 +1,7 @@
- .container {
+.container {
   min-height: 100vh;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   padding: 24px 16px;
-
 }
 
 .profileSection {
@@ -72,6 +71,11 @@
   color: white;
   padding: 12px 0;
   border-bottom: 1px solid #333;
+  background-color: #1e1e1e;
+  transition: background-color 0.2s;
+}
+.cardItem:hover {
+  background-color: #2a2a2a;
 }
 
 .cardItem:last-child {
@@ -86,4 +90,45 @@
 .cardSubtitle {
   font-size: 12px;
   color: #888;
+}
+
+.cardLeft {
+  display: flex;
+  align-items: center;
+}
+
+.iconWrapper {
+  width: 40px;
+  height: 40px;
+  background-color: #2f2f2f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-size: 13px;
+  color: #aaaaaa;
+  margin-top: 2px;
+}
+
+.arrow {
+  color: white;
+  width: 20px;
+  height: 20px;
 }

@@ -1,53 +1,212 @@
-.card {
-    display: flex;
-    flex-direction: row;
-    padding: 6px;
+/* .card {
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
 }
 
 .childCard {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .left {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .flag {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .details {
-    display: flex;
-    flex-direction: column;
-    margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
 }
 
 .right {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-
 .rowItem {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .eventRewardDetails {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #212121;
-}
-
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #212121;
+} */
 
 /* .eventRewardDetails .rowItem:nth-child(2) {
     margin-left: 10px;
 } */
+
+/* GameCard.module.css */
+
+.card {
+  background: #2e2e2e;
+  border: 1px solid #2e2e2e;
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+  margin-bottom: 16px;
+}
+
+.card:hover {
+  background: #3a3a3a;
+  border-color: #3a3a3a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px #0000004d;
+}
+
+.card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.childCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.left {
+  flex: 1;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mainText {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  margin: 0;
+}
+
+.secondaryText {
+  font-size: 0.9rem !important;
+  color: #f0f0f0 !important;
+  margin: 0;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.placeButton {
+  padding: 10px 20px !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  min-width: 80px !important;
+  border: none !important;
+}
+
+.startButton {
+  background: linear-gradient(45deg, #6366f1, #8b5cf6) !important;
+  color: white !important;
+}
+
+.startButton:hover {
+  background: linear-gradient(45deg, #5b21b6, #7c3aed) !important;
+  transform: scale(1.05) !important;
+}
+
+.pendingButton {
+  background: #ffa50033 !important;
+  color: #ffa500 !important;
+  border: 1px solid #ffa5004d !important;
+  cursor: not-allowed !important;
+}
+
+.pendingButton:hover {
+  transform: none !important;
+}
+
+.claimButton {
+  background: linear-gradient(45deg, #10b981, #059669) !important;
+  color: white !important;
+}
+
+.claimButton:hover {
+  background: linear-gradient(45deg, #059669, #047857) !important;
+  transform: scale(1.05) !important;
+}
+
+.eventRewardDetails {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ffffff1a;
+}
+
+.rowItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rowItem svg {
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    padding: 16px;
+  }
+
+  .childCard {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .placeButton {
+    align-self: flex-end !important;
+  }
+
+  .eventRewardDetails {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* Dark theme compatibility */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #2e2e2e; /* soft solid gray */
+    border-color: #3a3a3a; /* slightly lighter for subtle border */
+  }
+
+  .card:hover {
+    background: #393939; /* slightly lighter on hover */
+    border-color: #4a4a4a; /* subtle hover border */
+  }
+}

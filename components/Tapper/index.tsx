@@ -111,7 +111,7 @@ export const FolksTapper = ({
 
       const newNumber: NumberInfo = {
         id: `${Date.now()}`,
-        value: clickValue * 1,
+        value: (clickValue ?? 0) * 1,
         x: touch.clientX + randomNumberBetweenTenAndMinusTen,
         y: touch.clientY,
       };

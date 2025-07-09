@@ -1,5 +1,7 @@
 import axios from "axios";
 
+console.log("API base URL:", process.env.NEXT_PUBLIC_API_URL); // TEMPORARY
+
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
   headers: {

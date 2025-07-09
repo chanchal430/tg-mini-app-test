@@ -6,7 +6,8 @@ export default function HomePage() {
   const { user, loading, inTelegram } = useTelegramUser();
   const router = useRouter();
 
-  
+  console.log("Index:", { loading, user, inTelegram });
+
   useEffect(() => {
     if (!loading && user) {
       router.replace("/home");
@@ -21,7 +22,7 @@ export default function HomePage() {
     );
   }
 
-  console.log('user', user)
+  console.log("user", user);
   if (!inTelegram) {
     return (
       <div className="ctaContainer">
@@ -42,4 +43,3 @@ export default function HomePage() {
   // If no user, fallback to login or info
   return null;
 }
-

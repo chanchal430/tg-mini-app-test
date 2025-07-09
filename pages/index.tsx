@@ -41,5 +41,9 @@ export default function HomePage() {
   }
 
   // If no user, fallback to login or info
-  return null;
+  // return null;
+
+  <div style={{ textAlign: "center", padding: "2rem" }}>
+    <h2>Session not detected. Please open in Telegram.</h2>
+  </div>;
 }

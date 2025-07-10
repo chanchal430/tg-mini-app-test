@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[5910],{40688:(e,_,a)=>{(window.__NEXT_P=window.__NEXT_P||[]).push(["/game",function(){return a(40789)}])},40789:(e,_,a)=>{"use strict";a.r(_),a.d(_,{default:()=>s});var n=a(37876);a(14232);let s=()=>(0,n.jsx)("div",{children:"Game Page"})}},e=>{var _=_=>e(e.s=_);e.O(0,[636,6593,8792],()=>_(40688)),_N_E=e.O()}]);

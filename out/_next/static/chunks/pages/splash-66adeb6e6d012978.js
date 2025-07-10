@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[1421],{81578:(_,s,e)=>{"use strict";e.r(s),e.d(s,{default:()=>n});var a=e(37876);e(14232);let n=()=>(0,a.jsx)("div",{children:"Splash Page"})},87422:(_,s,e)=>{(window.__NEXT_P=window.__NEXT_P||[]).push(["/splash",function(){return e(81578)}])}},_=>{var s=s=>_(_.s=s);_.O(0,[636,6593,8792],()=>s(87422)),_N_E=_.O()}]);

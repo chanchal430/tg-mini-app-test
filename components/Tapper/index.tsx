@@ -270,7 +270,7 @@ export const FolksTapper = ({
   handleClick,
   children,
   className,
-}: TapcoinProps): JSX.Element => {
+}: TapcoinProps): ReactNode => {
   const notCoinRef = useRef<HTMLParagraphElement>(null);
   const [buttonTransform, setButtonTransform] = useState({
     scale: 1,

@@ -16,7 +16,16 @@ export function useTelegramAuthLogin() {
         const inTelegram = await isTMA();
         const initDataRaw = retrieveRawInitData();
 
-        console.log('initDataRaw', initDataRaw)
+        // Debug starts here (add these lines)
+        console.log("=== TELEGRAM DATA CHECK ===");
+        console.log("Running in Telegram:", inTelegram);
+        console.log("initDataRaw", initDataRaw);
+        if (initDataRaw) {
+          const user = new URLSearchParams(initDataRaw).get("user");
+          console.log("Telegram User:", user);
+        }
+        // Debug ends here
+
         if (inTelegram && initDataRaw) {
           await dispatch(login({ raw: initDataRaw })).unwrap();
           router.replace("/home");
